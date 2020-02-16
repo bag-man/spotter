@@ -1,0 +1,108 @@
+{
+  "name": "nazispotter",
+  "version": "1.0.0",
+  "description": "Prevent nazis manipulating reddit",
+  "scripts": {
+    "dev": "NODE_ENV=dev tsc-watch --onSuccess 'node ./build/bin/server.js'; npm run clean",
+    "start": "node ./build/bin/server.js",
+    "clean": "rm -rf build/",
+    "build": "npm run clean && tsc --project ./",
+    "lint": "eslint '*/**/*.ts' -f unix",
+    "lint:fix": "eslint '*/**/*.ts' -f unix --fix"
+  },
+  "author": "bag-man",
+  "license": "GPL",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "reddit-ts": "^0.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.1",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "source-map-support": "^0.5.16",
+    "ts-loader": "^6.0.0",
+    "tsc-watch": "^2.2.0",
+    "typescript": "^3.4.5"
+  },
+  "eslintIgnore": [],
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+      "es6": true,
+      "jest": true
+    },
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "@typescript-eslint/indent": [
+        "error",
+        2
+      ],
+      "@typescript-eslint/explicit-function-return-type": [
+        "error"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ],
+      "camelcase": [
+        2,
+        {
+          "properties": "always"
+        }
+      ],
+      "comma-style": [
+        "error",
+        "last"
+      ],
+      "complexity": [
+        2,
+        6
+      ],
+      "curly": [
+        2,
+        "multi-line"
+      ],
+      "indent": 0,
+      "max-len": [
+        2,
+        120,
+        2
+      ],
+      "max-nested-callbacks": [
+        2,
+        10
+      ],
+      "max-params": [
+        2,
+        7
+      ],
+      "max-statements": [
+        2,
+        25
+      ],
+      "no-path-concat": 0,
+      "no-unused-vars": [
+        2,
+        "all"
+      ],
+      "padded-blocks": [
+        "error",
+        "never"
+      ],
+      "space-before-function-paren": [
+        2,
+        "always"
+      ]
+    }
+  }
+}
