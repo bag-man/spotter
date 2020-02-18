@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const { USER_AGENT, CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD } = process.env
 
-export const credentials = {
+export const CREDENTIALS = {
   user_agent: USER_AGENT!,
    o2a: {
     client_id: CLIENT_ID!,
@@ -12,19 +12,10 @@ export const credentials = {
     password: PASSWORD!,
   }
 }
-
-export const subreddits = [ 'detroitRedWings' ]
-
-export interface PushShiftComment {
-  author: string
-  subreddit: string
-  permalink: string
-}
-
 export const PUSHSHIFT_COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
 export const PUSHSHIFT_SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
-
-export const hateSubs = [
+export const SEED_DB = process.env.SEED_DB
+export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',
   'whitebeauty',
@@ -555,3 +546,13 @@ export const hateSubs = [
   'greatawakening',
   'qanon',
 ]
+
+// import RedditApi from 'reddit-ts'
+// const r = new RedditApi(credentials)
+// const comments = (await Promise.all(
+//   subreddits.map(subreddit => r.comments(subreddit))
+// )).flat().map(x =>
+//   ({ subreddit: x.subreddit, author: x.author, url: x.url })
+// )
+
+// console.log(comments)

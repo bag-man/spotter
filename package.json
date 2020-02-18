@@ -15,7 +15,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
-    "reddit-ts": "^0.7.2"
+    "reddit-ts": "^0.7.2",
+    "ts-postgres": "^1.1.2"
   },
   "devDependencies": {
     "@types/node": "^13.7.1",
