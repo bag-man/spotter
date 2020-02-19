@@ -1,20 +1,8 @@
 require('source-map-support').install()
 require('dotenv').config()
 
-const { USER_AGENT, CLIENT_ID, CLIENT_SECRET, USERNAME, PASSWORD } = process.env
-
-export const CREDENTIALS = {
-  user_agent: USER_AGENT!,
-   o2a: {
-    client_id: CLIENT_ID!,
-    client_secret: CLIENT_SECRET!,
-    username: USERNAME!,
-    password: PASSWORD!,
-  }
-}
 export const PUSHSHIFT_COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
 export const PUSHSHIFT_SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
-export const SEED_DB = process.env.SEED_DB
 export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',
@@ -546,6 +534,18 @@ export const HATE_SUBS = [
   'greatawakening',
   'qanon',
 ]
+
+// const { REDDIT_USER_AGENT, REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USERNAME, REDDIT_PASSWORD } = process.env
+
+// export const CREDENTIALS = {
+//   user_agent: REDDIT_USER_AGENT!,
+//    o2a: {
+//     client_id: REDDIT_CLIENT_ID!,
+//     client_secret: REDDIT_CLIENT_SECRET!,
+//     username: REDDIT_USERNAME!,
+//     password: REDDIT_PASSWORD!,
+//   }
+// }
 
 // import RedditApi from 'reddit-ts'
 // const r = new RedditApi(credentials)

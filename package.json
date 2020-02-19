@@ -4,7 +4,8 @@
   "description": "Prevent nazis manipulating reddit",
   "scripts": {
     "dev": "NODE_ENV=dev tsc-watch --onSuccess 'node ./build/bin/server.js'; npm run clean",
-    "start": "node ./build/bin/server.js",
+    "start": "node ./build/bin/seed.js",
+    "seed": "node ./build/bin/seed.js",
     "clean": "rm -rf build/",
     "build": "npm run clean && tsc --project ./",
     "lint": "eslint '*/**/*.ts' -f unix",
