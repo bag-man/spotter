@@ -29,11 +29,12 @@ app.get('/:user', async (req, res, next) => {
           before
         }
       })).data.data)
-      if (!comments.length) break;
+
+      if (!comments.length) break
       before = comments[comments.length-1].created_utc
     }
 
-    res.setHeader('content-type', 'application/json');
+    res.setHeader('content-type', 'application/json')
     res.send({ author, reduced: authorReducer(comments) })
   } catch (e) {
     next(e)

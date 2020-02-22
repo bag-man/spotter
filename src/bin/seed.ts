@@ -45,7 +45,6 @@ const main = async () => {
     await client.query('BEGIN')
     authors.map(insertAuthor)
     await client.query('COMMIT')
-
   }
 
   await client.end()
