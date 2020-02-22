@@ -4,7 +4,7 @@
   "description": "Prevent nazis manipulating reddit",
   "scripts": {
     "dev": "NODE_ENV=dev tsc-watch --onSuccess 'node ./build/bin/server.js'; npm run clean",
-    "start": "node ./build/bin/seed.js",
+    "start": "node ./build/bin/server.js",
     "seed": "node ./build/bin/seed.js",
     "clean": "rm -rf build/",
     "build": "npm run clean && tsc --project ./",
@@ -15,11 +15,20 @@
   "license": "GPL",
   "dependencies": {
     "axios": "^0.19.2",
+    "compression": "^1.7.4",
     "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "koa": "^2.11.0",
+    "koa-router": "^8.0.8",
+    "morgan": "^1.9.1",
     "reddit-ts": "^0.7.2",
     "ts-postgres": "^1.1.2"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/koa": "^2.11.1",
+    "@types/koa-router": "^7.4.0",
+    "@types/morgan": "^1.7.37",
     "@types/node": "^13.7.1",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",

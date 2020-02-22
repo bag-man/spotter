@@ -1,4 +1,4 @@
-import { ParsedComment } from "../types"
+import { ParsedComment, ParsedAuthor } from "../types"
 
 type RecursiveFn<T> = (xs: T[], out?: T[]) => T[]
 type OperatorFn<T> = (T: T, xs: T[], out: T[]) => T | void
@@ -40,4 +40,20 @@ const reduceComments: OperatorFn<ParsedComment> = (x, _xs, out) => {
   return x
 }
 
+const reduceAuthor: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
+  // TODO: Figure out why this happens
+  if (!x) return
+
+  const exist = out.find(n => n.subreddit === x.subreddit)
+
+  if (exist) {
+    exist.count++
+    return
+  }
+
+  return { count: 1, subreddit: x.subreddit }
+}
+
+
 export const commentReducer = recursiveFactory<ParsedComment>(reduceComments)
+export const authorReducer = recursiveFactory<ParsedAuthor>(reduceAuthor)

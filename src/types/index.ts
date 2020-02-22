@@ -3,3 +3,8 @@ export interface ParsedComment {
   subreddit: string
   count: number
 }
+
+export interface ParsedAuthor {
+  subreddit: string
+  count: number
+}
