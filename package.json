@@ -9,8 +9,7 @@
     "clean": "rm -rf build/",
     "build": "npm run clean && tsc --project ./",
     "lint": "eslint '*/**/*.ts' -f unix",
-    "lint:fix": "eslint '*/**/*.ts' -f unix --fix",
-    "prepush": "npm run build && npm run lint && npm run test"
+    "lint:fix": "eslint '*/**/*.ts' -f unix --fix"
   },
   "author": "bag-man",
   "license": "GPL",
@@ -39,6 +38,11 @@
     "ts-loader": "^6.0.0",
     "tsc-watch": "^2.2.0",
     "typescript": "^3.4.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run build && npm run lint && npm run test"
+    }
   },
   "eslintIgnore": [],
   "eslintConfig": {
