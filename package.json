@@ -61,11 +61,21 @@
       "project": "./tsconfig.json"
     },
     "rules": {
+      "@typescript-eslint/member-delimiter-style": [
+        2,
+        {
+          "multiline": {
+            "delimiter": "none",
+            "requireLast": false
+          }
+        }
+      ],
       "@typescript-eslint/indent": [
         "error",
         2
       ],
       "@typescript-eslint/explicit-function-return-type": [
+
         "off"
       ],
       "semi": [

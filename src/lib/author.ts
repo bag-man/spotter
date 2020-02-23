@@ -28,3 +28,14 @@ export const getAuthor = async (author: string, api: string) => {
 
   return comments
 }
+
+interface Spots {
+  count: number
+  subreddit: string
+}
+
+export interface Profile {
+  author: string
+  comments: Spots[]
+  submissions: Spots[]
+}
