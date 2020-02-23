@@ -1,10 +1,10 @@
 export interface ParsedComment {
-  author: string;
-  subreddit: string;
-  count: number;
+  author: string
+  subreddit: string
+  count: number
 }
 
 export interface ParsedAuthor {
-  subreddit: string;
-  count: number;
+  subreddit: string
+  count: number
 }
