@@ -5,9 +5,10 @@ type OperatorFn<T> = (T: T, xs: T[], out: T[]) => T | void
 type FactoryFn = <T>(fn: OperatorFn<T>) => RecursiveFn<T>
 
 const recursiveFactory: FactoryFn = <T>(fn: OperatorFn<T>) => {
-  const recursive: RecursiveFn<T> = (xs, out = []) => {
+  const recursive: RecursiveFn<T> = (xs, out = [])  => {
     const x = xs.shift()
 
+    // eslint-disable-next-line
     const res = fn(x!, xs, out)
 
     if (res) {
@@ -41,9 +42,6 @@ const reduceComments: OperatorFn<ParsedComment> = (x, _xs, out) => {
 }
 
 const reduceAuthor: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
-  // TODO: Figure out why this happens
-  if (!x) return
-
   const exist = out.find(n => n.subreddit === x.subreddit)
 
   if (exist) {
@@ -53,7 +51,6 @@ const reduceAuthor: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
 
   return { count: 1, subreddit: x.subreddit }
 }
-
 
 export const commentReducer = recursiveFactory<ParsedComment>(reduceComments)
 export const authorReducer = recursiveFactory<ParsedAuthor>(reduceAuthor)

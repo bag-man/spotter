@@ -1,8 +1,8 @@
 require('source-map-support').install()
 require('dotenv').config()
 
-export const PUSHSHIFT_COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
-export const PUSHSHIFT_SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
+export const COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
+export const SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
 export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',

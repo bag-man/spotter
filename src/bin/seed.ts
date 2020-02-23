@@ -1,5 +1,5 @@
 import {
-  PUSHSHIFT_COMMENTS_API,
+  COMMENTS_API,
   HATE_SUBS
 } from '../lib/bootstrap'
 import axios from 'axios'
@@ -19,7 +19,7 @@ const main = async () => {
 
   while (before > backInTime) {
     try {
-      badComments = (await axios.get(PUSHSHIFT_COMMENTS_API, {
+      badComments = (await axios.get(COMMENTS_API, {
         params: {
           subreddit: HATE_SUBS.toString(),
           size: 1000,

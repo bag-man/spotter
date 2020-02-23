@@ -1,12 +1,12 @@
 import {
-  PUSHSHIFT_COMMENTS_API,
-  HATE_SUBS
+  COMMENTS_API,
+  SUBMISSION_API
 } from '../lib/bootstrap'
-import axios from 'axios'
+
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import { authorReducer } from '../lib/reduce'
+import { getAuthor } from '../lib/author'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -14,33 +14,21 @@ const port = process.env.PORT || 3000
 app.use(logger('dev'))
 app.use(compression())
 
-app.get('/:user', async (req, res, next) => {
+app.get('/favicon.ico', (_req, res) => res.status(204))
+
+app.get('/:user', async (req, res, next): Promise<void> => {
   try {
     const author = req.params.user
-    const comments = []
-    let before = Math.round(new Date().getTime() / 1000)
-
-    while (!(comments.length % 1000)) {
-      comments.push(...(await axios.get(PUSHSHIFT_COMMENTS_API, {
-        params: {
-          subreddit: HATE_SUBS.toString(),
-          size: 1000,
-          author,
-          before
-        }
-      })).data.data)
-
-      if (!comments.length) break
-      before = comments[comments.length-1].created_utc
-    }
+    const comments = await getAuthor(author, COMMENTS_API)
+    const submissions = await getAuthor(author, SUBMISSION_API)
 
     res.setHeader('content-type', 'application/json')
-    res.send({ author, reduced: authorReducer(comments) })
+    res.send({ author, comments, submissions })
   } catch (e) {
     next(e)
   }
 })
 
-app.listen(port, () => {
+app.listen(port, (): void => {
   console.log(`Listening on http://localhost:${port}`)
 })
