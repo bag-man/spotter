@@ -1,4 +1,5 @@
 import { ParsedComment, ParsedAuthor } from "../types"
+import { BOTS } from "./bootstrap"
 
 type RecursiveFn<T> = (xs: T[], out?: T[]) => T[]
 type OperatorFn<T> = (T: T, xs: T[], out: T[]) => T | void
@@ -26,7 +27,7 @@ const recursiveFactory: FactoryFn = <T>(fn: OperatorFn<T>) => {
 }
 
 const reduceComments: OperatorFn<ParsedComment> = (x, _xs, out) => {
-  if (x.author === 'AutoModerator' || x.author === '[deleted]') {
+  if (BOTS.find(n => n === x.author)) {
     return
   }
 

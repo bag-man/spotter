@@ -1,6 +1,15 @@
 require('source-map-support').install()
 require('dotenv').config()
 
+export const BOTS = [
+  '[deleted]',
+  'AutoModerator',
+  'SnapshillBot',
+  'BotForceOne',
+  'rConBot',
+  'VredditDownloader',
+  'TrumpTrainBot'
+]
 export const COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
 export const SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
 export const HATE_SUBS = [
