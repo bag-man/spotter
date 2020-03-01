@@ -18,6 +18,15 @@ app.use(compression())
 
 app.get('/favicon.ico', (_req, res) => res.status(204))
 
+app.get('/', async (req, res, next): Promise<void> => {
+  try {
+    res.setHeader('content-type', 'text/plain')
+    res.send('Hi Jenny!')
+  } catch (e) {
+    next(e)
+  }
+})
+
 // app.get('/leaderboard', async (req, res, next): Promise<void> => {
 //   try {
 //     res.setHeader('content-type', 'application/json')
