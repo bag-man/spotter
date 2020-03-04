@@ -24,7 +24,7 @@ app.use('/assets', express.static(join(__dirname, '../assets')))
 
 app.get('/', async (_req, res, next): Promise<void> => {
   try {
-    const leaderboard = await getLeaderboard();
+    const leaderboard = await getLeaderboard()
     res.setHeader('content-type', 'text/html')
     res.send(homeTemplate({ leaderboard }))
   } catch (e) {
@@ -57,7 +57,6 @@ app.get('/:api?/:author', async (req, res, next): Promise<void> => {
 
     res.setHeader('content-type', 'text/html')
     res.send(authorTemplate({...content, markdown }))
-
   } catch (e) {
     next(e)
   }
