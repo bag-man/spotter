@@ -1,5 +1,3 @@
-Hi Jenny!
-
 For this to work you are going to need to have [nodejs](https://tecadmin.net/install-latest-nodejs-on-fedora/) and [docker](https://docs.docker.com/install/linux/docker-ce/fedora/) installed. Then you can use these commands to work on the project. 
 
 ```

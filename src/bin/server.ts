@@ -8,7 +8,7 @@ import * as logger from 'morgan'
 import * as compression from 'compression'
 import { getAuthor, Profile } from '../lib/author'
 import { authorToMarkdown } from '../lib/markdown'
-// import { client, getLeaderboard } from '../lib/db'
+import { client, getLeaderboard } from '../lib/db'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -18,23 +18,14 @@ app.use(compression())
 
 app.get('/favicon.ico', (_req, res) => res.status(204))
 
-app.get('/', async (req, res, next): Promise<void> => {
+app.get('/leaderboard', async (req, res, next): Promise<void> => {
   try {
-    res.setHeader('content-type', 'text/plain')
-    res.send('Hi Jenny!')
+    res.setHeader('content-type', 'application/json')
+    res.send(await getLeaderboard())
   } catch (e) {
     next(e)
   }
 })
-
-// app.get('/leaderboard', async (req, res, next): Promise<void> => {
-//   try {
-//     res.setHeader('content-type', 'application/json')
-//     res.send(await getLeaderboard())
-//   } catch (e) {
-//     next(e)
-//   }
-// })
 
 app.get('/:author', async (req, res, next): Promise<void> => {
   try {
@@ -52,6 +43,6 @@ app.get('/:author', async (req, res, next): Promise<void> => {
 })
 
 app.listen(port, async () => {
-  // await client.connect()
+  await client.connect()
   console.log(`Listening on http://localhost:${port}`)
 })
