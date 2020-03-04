@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "Prevent nazis manipulating reddit",
   "scripts": {
-    "dev": "NODE_ENV=dev tsc-watch --onSuccess 'node ./build/bin/server.js'; npm run clean",
-    "start": "node ./build/bin/server.js",
-    "seed": "node ./build/bin/seed.js",
     "clean": "rm -rf build/",
-    "build": "npm run clean && tsc --project ./",
+    "start": "node ./build/bin/server.js",
+    "build": "npm run clean && npm run build:frontend && tsc --project ./",
+    "watch": "npm run watch:frontend & NODE_ENV=dev tsc-watch --onSuccess 'node ./build/bin/server.js'; npm run clean",
+    "seed": "node ./build/bin/seed.js",
     "lint": "eslint '*/**/*.ts' -f unix",
-    "lint:fix": "eslint '*/**/*.ts' -f unix --fix"
+    "lint:fix": "eslint '*/**/*.ts' -f unix --fix",
+    "build:css": "./node_modules/stylus/bin/stylus src/assets/stylesheets/index.styl -o build/assets/css",
+    "watch:css": "./node_modules/stylus/bin/stylus src/assets/stylesheets/index.styl -o build/assets/css -w",
+    "build:js": "./node_modules/.bin/webpack -p",
+    "watch:js": "./node_modules/.bin/webpack --watch",
+    "build:frontend": "npm run build:css && npm run build:js",
+    "watch:frontend": "npm run watch:css & npm run watch:js"
   },
   "author": "bag-man",
   "license": "GPL",
@@ -21,6 +27,7 @@
     "koa": "^2.11.0",
     "koa-router": "^8.0.8",
     "morgan": "^1.9.1",
+    "pug": "^2.0.4",
     "reddit-ts": "^0.7.2",
     "ts-postgres": "^1.1.3"
   },
@@ -30,14 +37,18 @@
     "@types/koa-router": "^7.4.0",
     "@types/morgan": "^1.7.37",
     "@types/node": "^13.7.4",
+    "@types/pug": "^2.0.4",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "husky": "^4.2.3",
     "source-map-support": "^0.5.16",
-    "ts-loader": "^6.0.0",
+    "stylus": "^0.54.7",
+    "ts-loader": "^6.2.1",
     "tsc-watch": "^4.1.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   },
   "husky": {
     "hooks": {
