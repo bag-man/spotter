@@ -1,5 +1,18 @@
 extend ./header
 
 block content 
-  pre
-    | Hello World!
+  div.table-responsive
+    table.table
+      thead
+        tr
+          th.col-md-1 Author
+          th.col-md-1 Total Comments
+          th.col-md-10 Subreddits
+      tbody
+        each item in leaderboard.rows
+          tr
+            td
+              a(href='/' + item[1]) #{item[1]}
+            td #{item[0]}
+            td #{item[2].join(', ')}
+              
