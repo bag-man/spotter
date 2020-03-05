@@ -1,18 +1,13 @@
-let selection: Selection | null
+const copyMarkdown = () => {
+  const md = document.getElementsByClassName('markdown').item(0)?.innerHTML
 
-const select = () => {
-  const md = document.getElementsByClassName('markdown').item(0)
-
-  if (md && selection) {
-    const range = document.createRange()
-    range.selectNodeContents(md)
-    selection.addRange(range)
+  if (md) {
+    navigator.clipboard.writeText(md)
   }
 }
 
-const selectBtn = document.getElementsByClassName('select').item(0)
+const copyBtn = document.getElementsByClassName('copy').item(0)
 
-if (selectBtn) {
-  selection = window.getSelection()
-  selectBtn.addEventListener('click', select)
+if (copyBtn) {
+  copyBtn.addEventListener('click', copyMarkdown)
 }
