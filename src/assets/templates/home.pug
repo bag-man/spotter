@@ -3,8 +3,8 @@ extend ./header
 block content 
   div.search
     form.form(action='/author', method='GET')
-      input.form-control(type='text', placeholder='username', name='user')
-      button.input.form-control Search
+      input(type='text', placeholder='username', name='user')
+      button Search
 
   div.table-responsive
     table.table

@@ -1,17 +1,18 @@
-const copy = () => {
-  const md = document.getElementsByClassName('markdown').item(0)?.innerHTML
+let selection: Selection | null
 
-  if (md) {
-    navigator.permissions.query({ name: 'clipboard-write' as PermissionName }).then(result => {
-      if (result.state == "granted" || result.state == "prompt") {
-        navigator.clipboard.writeText(md)
-      } else {
-        (navigator as any).permissions.request({name: 'clipboard-write' as PermissionName})
-      }
-    })
+const select = () => {
+  const md = document.getElementsByClassName('markdown').item(0)
+
+  if (md && selection) {
+    const range = document.createRange()
+    range.selectNodeContents(md)
+    selection.addRange(range)
   }
 }
 
-const copyBtn = document.getElementsByClassName('copy').item(0)
+const selectBtn = document.getElementsByClassName('select').item(0)
 
-if (copyBtn) copyBtn.addEventListener('click', copy)
+if (selectBtn) {
+  selection = window.getSelection()
+  selectBtn.addEventListener('click', select)
+}
