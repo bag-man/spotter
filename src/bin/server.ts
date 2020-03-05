@@ -14,6 +14,7 @@ import { compileFile } from 'pug'
 
 const app = express()
 const port = process.env.PORT || 3000
+const cacheTTL = 60 * 60 * 24
 
 const homeTemplate = compileFile(join(__dirname,  '../../src/assets/templates/home.pug'))
 const authorTemplate = compileFile(join(__dirname,  '../../src/assets/templates/author.pug'))
@@ -21,6 +22,10 @@ const authorTemplate = compileFile(join(__dirname,  '../../src/assets/templates/
 app.use(logger('dev'))
 app.use(compression())
 app.use('/assets', express.static(join(__dirname, '../assets')))
+app.use((_req, res, next) => {
+  res.header('Cache-Control', `max-age=${cacheTTL}`)
+  next()
+})
 
 app.get('/', async (_req, res, next): Promise<void> => {
   try {
