@@ -41,6 +41,21 @@ app.get('/api/leaderboard', async (_req, res, next): Promise<void> => {
   }
 })
 
+app.get('/author', async (req, res, next): Promise<void> => {
+  try {
+    const { user: author } = req.query
+    const comments = await getAuthor(author, COMMENTS_API)
+    const submissions = await getAuthor(author, SUBMISSION_API)
+    const content: Profile = { author, comments, submissions }
+    const markdown = authorToMarkdown(content)
+
+    res.setHeader('content-type', 'text/html')
+    res.send(authorTemplate({...content, markdown }))
+  } catch (e) {
+    next(e)
+  }
+})
+
 app.get('/:api?/:author', async (req, res, next): Promise<void> => {
   try {
     const { api, author } = req.params
