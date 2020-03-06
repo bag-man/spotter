@@ -12,6 +12,7 @@ if (copyBtn) {
   copyBtn.addEventListener('click', copyMarkdown)
 }
 
+// eslint-disable-next-line
 const redirect = () => {
   const author = document.getElementsByClassName('search').item(0) as HTMLInputElement
 
