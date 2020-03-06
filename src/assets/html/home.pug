@@ -1,10 +1,10 @@
 extend ./header
 
 block content 
-  div.search
-    form.form(action='/author', method='GET')
-      input(type='text', placeholder='username', name='user')
-      button.btn Search
+  div.form-group
+    form.form(action='javascript:redirect()')
+      input.form-control.search(type='text', placeholder='username', name='user')
+      input.form-control(type='submit', value='Search')
 
   div.table-responsive
     table.table

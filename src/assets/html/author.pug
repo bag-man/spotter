@@ -1,9 +1,13 @@
 extend ./header
 
 block content 
+  div.form-group
+    form.form(action='javascript:redirect()')
+      input.form-control.search(type='text', placeholder='username', name='user')
+      input.form-control(type='submit', value='Search')
+      button.form-control(data-clipboard-target='.markdown') Copy as markdown
+
   h2 #{author}
-  pre.markdown #{markdown}
-  button.copy(data-clipboard-target='.markdown') copy
 
   div.table-responsive
     table.table
@@ -16,3 +20,5 @@ block content
           tr
             td #{comment.subreddit}
             td #{comment.count}
+
+  pre.markdown #{markdown}
