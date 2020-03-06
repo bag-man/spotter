@@ -5,7 +5,7 @@ block content
     form.form(action='javascript:redirect()')
       input.form-control.search(type='text', placeholder='username', name='user')
       input.form-control(type='submit', value='Search')
-      button.form-control(data-clipboard-target='.markdown') Copy as markdown
+      input.copy.form-control(type='button', data-clipboard-target='.markdown' value='Copy as markdown') 
 
   h2 #{author}
 
@@ -22,3 +22,4 @@ block content
             td #{comment.count}
 
   pre.markdown #{markdown}
+
