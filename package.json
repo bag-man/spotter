@@ -67,7 +67,7 @@
       "pre-push": "npm run build && npm run lint && npm run test"
     }
   },
-  "eslintIgnore": [],
+  "eslintIgnore": [ "test" ],
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
