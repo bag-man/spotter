@@ -34,7 +34,7 @@ export const insertAuthor = (x: ParsedComment): ResultIterator =>
       UPDATE SET postcount = EXCLUDED.postcount + spotted.postcount;
   `, [ x.author, x.subreddit, x.count ])
 
-export const getLeaderboard = (): ResultIterator =>
+export const getLeaders = (): ResultIterator =>
   client.query(`
     select sum(postcount)::int as total_comments, author, array_agg(subreddit) as subreddits
     from spotted group by author order by total_comments desc limit 50;

@@ -1,14 +1,8 @@
-import {
-  COMMENTS_API,
-  SUBMISSION_API
-} from '../lib/bootstrap'
-
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import { getAuthor, Profile } from '../lib/author'
-import { authorToMarkdown } from '../lib/markdown'
-import { client, getLeaderboard } from '../lib/db'
+import { fetchAuthor } from '../lib/author'
+import { client, getLeaders } from '../lib/db'
 import { join } from 'path'
 import { compileFile } from 'pug'
 
@@ -29,33 +23,9 @@ app.use((_req, res, next) => {
 
 app.get('/', async (_req, res, next): Promise<void> => {
   try {
-    const leaderboard = await getLeaderboard()
+    const leaderboard = await getLeaders()
     res.setHeader('content-type', 'text/html')
     res.send(homeTemplate({ leaderboard }))
-  } catch (e) {
-    next(e)
-  }
-})
-
-app.get('/api/leaderboard', async (_req, res, next): Promise<void> => {
-  try {
-    res.setHeader('content-type', 'application/json')
-    res.send(await getLeaderboard())
-  } catch (e) {
-    next(e)
-  }
-})
-
-app.get('/author', async (req, res, next): Promise<void> => {
-  try {
-    const { user: author } = req.query
-    const comments = await getAuthor(author, COMMENTS_API)
-    const submissions = await getAuthor(author, SUBMISSION_API)
-    const content: Profile = { author, comments, submissions }
-    const markdown = authorToMarkdown(content)
-
-    res.setHeader('content-type', 'text/html')
-    res.send(authorTemplate({...content, markdown }))
   } catch (e) {
     next(e)
   }
@@ -64,19 +34,16 @@ app.get('/author', async (req, res, next): Promise<void> => {
 app.get('/:api?/:author', async (req, res, next): Promise<void> => {
   try {
     const { api, author } = req.params
-    const comments = await getAuthor(author, COMMENTS_API)
-    const submissions = await getAuthor(author, SUBMISSION_API)
-    const content: Profile = { author, comments, submissions }
-    const markdown = authorToMarkdown(content)
+    const authorData = await fetchAuthor(author)
 
     if (api) {
       res.setHeader('content-type', 'application/json')
-      res.send({ ...content, markdown })
+      res.send(authorData)
       return next()
     }
 
     res.setHeader('content-type', 'text/html')
-    res.send(authorTemplate({...content, markdown }))
+    res.send(authorTemplate(authorData))
   } catch (e) {
     next(e)
   }

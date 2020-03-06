@@ -4,7 +4,7 @@ import {
 } from '../lib/bootstrap'
 import axios from 'axios'
 import { createDbSchema, client, insertAuthor } from '../lib/db'
-import { commentReducer } from '../lib/reduce'
+import { seedReducer } from '../lib/reduce'
 import { sleep } from '../lib/utils'
 
 const main = async () => {
@@ -40,7 +40,7 @@ const main = async () => {
     console.log(`${new Date(before * 1000).toISOString()}: ${totalCount}`)
     before = badComments[badComments.length-1].created_utc
 
-    const authors = commentReducer(badComments)
+    const authors = seedReducer(badComments)
 
     await client.query('BEGIN')
     authors.map(insertAuthor)

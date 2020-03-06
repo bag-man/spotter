@@ -1,5 +1,5 @@
 import { ParsedComment, ParsedAuthor } from "../types"
-import { BOTS } from "./bootstrap"
+import { BOTS } from './bootstrap'
 
 type RecursiveFn<T> = (xs: T[], out?: T[]) => T[]
 type OperatorFn<T> = (T: T, xs: T[], out: T[]) => T | void
@@ -26,7 +26,7 @@ const recursiveFactory: FactoryFn = <T>(fn: OperatorFn<T>) => {
   return recursive
 }
 
-const reduceComments: OperatorFn<ParsedComment> = (x, _xs, out) => {
+const reduceSeed: OperatorFn<ParsedComment> = (x, _xs, out) => {
   if (BOTS.find(n => n === x.author)) {
     return
   }
@@ -42,7 +42,7 @@ const reduceComments: OperatorFn<ParsedComment> = (x, _xs, out) => {
   return x
 }
 
-const reduceAuthor: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
+const reducePosts: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
   const exist = out.find(n => n.subreddit === x.subreddit)
 
   if (exist) {
@@ -53,5 +53,5 @@ const reduceAuthor: OperatorFn<ParsedAuthor> = (x, _xs, out) => {
   return { count: 1, subreddit: x.subreddit }
 }
 
-export const commentReducer = recursiveFactory<ParsedComment>(reduceComments)
-export const authorReducer = recursiveFactory<ParsedAuthor>(reduceAuthor)
+export const seedReducer = recursiveFactory<ParsedComment>(reduceSeed)
+export const postReducer = recursiveFactory<ParsedAuthor>(reducePosts)
