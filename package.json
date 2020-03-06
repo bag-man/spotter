@@ -15,7 +15,9 @@
     "build": "npm run clean && npm run build:frontend && npm run build:backend",
     "watch:backend": "nodemon --watch 'src/**/*' --exclude 'src/assets/js/' -e ts,pug --exec 'npm run build:backend && node build/bin/server.js'",
     "watch:frontend": "nodemon --watch 'src/assets/' -e ts,styl --exec 'npm run build:frontend'",
-    "watch": "npm run clean && npm run watch:backend & npm run watch:frontend"
+    "watch": "npm run clean && npm run watch:backend & npm run watch:frontend",
+    "test": "./node_modules/.bin/jest",
+    "test:watch": "./node_modules/.bin/jest --watch"
   },
   "author": "bag-man",
   "license": "GPL",
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@types/compression": "^1.7.0",
+    "@types/jest": "^25.1.3",
     "@types/koa": "^2.11.1",
     "@types/koa-router": "^7.4.0",
     "@types/morgan": "^1.7.37",
@@ -42,13 +45,22 @@
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
     "husky": "^4.2.3",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "source-map-support": "^0.5.16",
     "stylus": "^0.54.7",
+    "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.2",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": ".*\\.test.ts$",
+    "moduleFileExtensions": [ "ts", "js" ]
   },
   "husky": {
     "hooks": {
@@ -86,6 +98,9 @@
         2
       ],
       "@typescript-eslint/explicit-function-return-type": [
+        "off"
+      ],
+      "@typescript-eslint/no-use-before-define": [
         "off"
       ],
       "semi": [

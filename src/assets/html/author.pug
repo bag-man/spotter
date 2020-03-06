@@ -13,13 +13,15 @@ block content
     table.table
       thead
         tr
-          th.col-md-10 Subreddit
-          th.col-md-1 Comments
+          th.col-md-4 Subreddit
+          th.col-md-4 Comments
+          th.col-md-4 Submissions
       tbody
-        each comment in comments
+        each subreddit in stats
           tr
-            td #{comment.subreddit}
-            td #{comment.count}
+            td #{subreddit.subreddit}
+            td #{subreddit.comments}
+            td #{subreddit.submissions}
 
   pre.markdown #{markdown}
 

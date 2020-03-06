@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import { fetchAuthor } from '../lib/author'
+import { compileAuthor } from '../lib/author'
 import { client, getLeaders } from '../lib/db'
 import { join } from 'path'
 import { compileFile } from 'pug'
@@ -34,7 +34,7 @@ app.get('/', async (_req, res, next): Promise<void> => {
 app.get('/:api?/:author', async (req, res, next): Promise<void> => {
   try {
     const { api, author } = req.params
-    const authorData = await fetchAuthor(author)
+    const authorData = await compileAuthor(author)
 
     if (api) {
       res.setHeader('content-type', 'application/json')
