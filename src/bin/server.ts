@@ -16,8 +16,8 @@ const app = express()
 const port = process.env.PORT || 3000
 const cacheTTL = 60 * 60 * 24
 
-const homeTemplate = compileFile(join(__dirname,  '../../src/assets/templates/home.pug'))
-const authorTemplate = compileFile(join(__dirname,  '../../src/assets/templates/author.pug'))
+const homeTemplate = compileFile(join(__dirname,  '../../src/assets/html/home.pug'))
+const authorTemplate = compileFile(join(__dirname,  '../../src/assets/html/author.pug'))
 
 app.use(logger('dev'))
 app.use(compression())
