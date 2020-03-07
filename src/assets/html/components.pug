@@ -1,4 +1,4 @@
-mixin search
+mixin search(author)
   form(action='javascript:redirect()' autocomplete='off')
-    input.search(type='text', placeholder='Search for another user', name='user')
+    input.search(type='text', placeholder='Search for another user', name='user', onfocus="this.value=''", value=author)
 

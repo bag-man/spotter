@@ -2,11 +2,10 @@ extend ./header
 include ./components
 
 block content 
+  div.header
+    +search(author)
+
   div.container
-
-    div.controls
-      +search
-
     div.table-responsive
       table.table
         thead

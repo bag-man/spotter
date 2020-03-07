@@ -3,12 +3,11 @@ include ./components
 
 block content 
   div.header
-    h2 #{author}
-      button.copy(title='Copy markdown to clipboard')
-        i.fa.fa-copy.fa-lg
+    +search(author)
+    button.copy(title='Copy markdown to clipboard')
+      i.fa.fa-copy.fa-lg
 
   div.container
-    +search
     div.table-responsive
       table.table
         thead
@@ -24,5 +23,4 @@ block content
               td #{subreddit.submissions}
 
 
-    pre.markdown #{markdown}
-
+  pre.markdown #{markdown}
