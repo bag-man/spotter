@@ -1,23 +1,24 @@
 extend ./header
+include ./components
 
 block content 
-  div.form-group
-    form.form(action='javascript:redirect()')
-      input.form-control.search(type='text', placeholder='username', name='user')
-      input.form-control(type='submit', value='Search')
+  div.container
 
-  div.table-responsive
-    table.table
-      thead
-        tr
-          th.col-md-1 Author
-          th.col-md-1 Comments
-          th.col-md-10 Subreddits
-      tbody
-        each item in leaderboard.rows
+    div.controls
+      +search
+
+    div.table-responsive
+      table.table
+        thead
           tr
-            td
-              a(href='/' + item[1]) #{item[1]}
-            td #{item[0]}
-            td #{item[2].join(', ')}
-              
+            th.col-md-1 Author
+            th.col-md-1 Comments
+            th.col-md-10 Subreddits
+        tbody
+          each item in leaderboard.rows
+            tr
+              td
+                a(href='/' + item[1]) #{item[1]}
+              td #{item[0]}
+              td #{item[2].join(', ')}
+                

@@ -1,27 +1,28 @@
 extend ./header
+include ./components
 
 block content 
-  div.form-group
-    form.form(action='javascript:redirect()')
-      input.form-control.search(type='text', placeholder='username', name='user')
-      input.form-control(type='submit', value='Search')
-      input.copy.form-control(type='button', data-clipboard-target='.markdown' value='Copy as markdown') 
+  div.header
+    h2 #{author}
+      button.copy(title='Copy markdown to clipboard')
+        i.fa.fa-copy.fa-lg
 
-  h2 #{author}
-
-  div.table-responsive
-    table.table
-      thead
-        tr
-          th.col-md-4 Subreddit
-          th.col-md-4 Comments
-          th.col-md-4 Submissions
-      tbody
-        each subreddit in stats
+  div.container
+    +search
+    div.table-responsive
+      table.table
+        thead
           tr
-            td #{subreddit.subreddit}
-            td #{subreddit.comments}
-            td #{subreddit.submissions}
+            th.col-md-4 Subreddit
+            th.col-md-4 Comments
+            th.col-md-4 Submissions 
+        tbody
+          each subreddit in stats
+            tr
+              td #{subreddit.subreddit}
+              td #{subreddit.comments}
+              td #{subreddit.submissions}
 
-  pre.markdown #{markdown}
+
+    pre.markdown #{markdown}
 
