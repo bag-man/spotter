@@ -5,7 +5,15 @@ import {
 } from '../lib/bootstrap'
 import { postReducer } from './reduce'
 import axios from 'axios'
-import { Author, AuthorRawPosts, PostsBySubreddit } from '../types'
+import {
+  Author,
+  AuthorRawPosts,
+  PostsBySubreddit,
+  AuthorComment,
+  AuthorCommentsBySubreddit,
+  Posts,
+  Post
+} from '../types'
 
 export const compileAuthor = async (author: string): Promise<Author> => {
   const raw = await fetchRawPosts(author)
@@ -14,14 +22,20 @@ export const compileAuthor = async (author: string): Promise<Author> => {
   return { author, stats, markdown }
 }
 
-const getPosts = async (author: string, api: string) => {
-  let posts = []
+export const compileAuthorComments = async (author: string, subreddit: string): Promise<AuthorCommentsBySubreddit> => {
+  const raw = await getPosts(author, COMMENTS_API, subreddit)
+  const comments = compileComments(raw.posts)
+  return { author, subreddit, comments, stats: raw.stats }
+}
+
+const getPosts = async (author: string, api: string, subreddit?: string): Promise<Posts> => {
+  const posts = []
   let before = Math.round(new Date().getTime() / 1000)
 
   while (!(posts.length % 1000)) {
     posts.push(...(await axios.get(api, {
       params: {
-        subreddit: HATE_SUBS.toString(),
+        subreddit: subreddit || HATE_SUBS.toString(),
         size: 1000,
         author,
         before
@@ -32,11 +46,20 @@ const getPosts = async (author: string, api: string) => {
     before = posts[posts.length-1].created_utc
   }
 
-  if (posts.length) {
-    posts = postReducer(posts)
+  const data = {
+    posts: [...posts],
+    stats: posts.length ? postReducer(posts) : []
   }
 
-  return posts
+  return data
+}
+
+export const compileComments = (raw: Post[] = []): AuthorComment[] => {
+  return raw.map(x => ({
+    body: x.body,
+    date: new Date(x.created_utc * 1000),
+    link: x.permalink
+  }))
 }
 
 export const compileStats = (raw: AuthorRawPosts): PostsBySubreddit[] => {
@@ -69,5 +92,5 @@ const compileMarkdown = (stats: PostsBySubreddit[]): string => {
 const fetchRawPosts = async (author: string): Promise<AuthorRawPosts> => {
   const comments = await getPosts(author, COMMENTS_API)
   const submissions = await getPosts(author, SUBMISSION_API)
-  return { comments, submissions }
+  return { comments: comments.stats, submissions: submissions.stats }
 }

@@ -4,7 +4,7 @@ export interface ParsedComment {
   count: number
 }
 
-export interface ParsedAuthor {
+export interface ParsedPosts {
   subreddit: string
   count: number
 }
@@ -29,4 +29,29 @@ export interface PostsBySubreddit {
   subreddit: string
   submissions: number
   comments: number
+}
+
+export interface AuthorCommentsBySubreddit {
+  subreddit: string
+  author: string
+  comments: AuthorComment[]
+  stats: Spots[]
+}
+
+export interface Posts {
+  stats: ParsedPosts[]
+  posts?: Post[]
+}
+
+export interface Post {
+  body: string
+  permalink?: string
+  // eslint-disable-next-line
+  created_utc: number
+}
+
+export interface AuthorComment {
+  body: string
+  date: Date
+  link?: string
 }

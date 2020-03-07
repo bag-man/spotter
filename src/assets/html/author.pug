@@ -18,7 +18,8 @@ block content
         tbody
           each subreddit in stats
             tr
-              td #{subreddit.subreddit}
+              td 
+                a(href=`/${author}/${subreddit.subreddit}`) #{subreddit.subreddit}
               td #{subreddit.comments}
               td #{subreddit.submissions}
 

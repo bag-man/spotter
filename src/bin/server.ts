@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import { compileAuthor } from '../lib/author'
+import { compileAuthor, compileAuthorComments } from '../lib/author'
 import { client, getLeaders } from '../lib/db'
 import { join } from 'path'
 import { compileFile } from 'pug'
@@ -12,6 +12,7 @@ const cacheTTL = 60 * 60 * 24
 
 const homeTemplate = compileFile(join(__dirname,  '../../src/assets/html/home.pug'))
 const authorTemplate = compileFile(join(__dirname,  '../../src/assets/html/author.pug'))
+const commentsTemplate = compileFile(join(__dirname,  '../../src/assets/html/comments.pug'))
 
 app.use(logger('dev'))
 app.use(compression())
@@ -26,6 +27,18 @@ app.get('/', async (_req, res, next): Promise<void> => {
     const leaderboard = await getLeaders()
     res.setHeader('content-type', 'text/html')
     res.send(homeTemplate({ leaderboard }))
+  } catch (e) {
+    next(e)
+  }
+})
+
+app.get('/:author/:subreddit', async (req, res, next): Promise<void> => {
+  try {
+    const { author, subreddit } = req.params
+    const authorComments = await compileAuthorComments(author, subreddit)
+
+    res.setHeader('content-type', 'text/html')
+    res.send(commentsTemplate(authorComments))
   } catch (e) {
     next(e)
   }

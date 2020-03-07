@@ -1,3 +1,9 @@
+.comments
+  table-layout: fixed
+
+td
+  word-wrap: break-word
+
 .markdown
   visibility: hidden
 
@@ -24,12 +30,17 @@
 body
   background-color: #444444
   color: #FFFFFF
-  overflow: hidden
+
+body::-webkit-scrollbar 
+  display: none
 
 a
   color: #FFFFFF
 
 a:hover
+  color: #CCCCCC
+
+a:visited
   color: #CCCCCC
 
 button
