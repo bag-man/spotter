@@ -29,7 +29,7 @@ block content
             tr
               td #{comment.date.toISOString().slice(0,10)}
               if comment.link
-                td
+                td.wrap
                   a(href='https://reddit.com/' + comment.link) #{comment.body}
               else
                 td.wrap #{comment.body}

@@ -60,14 +60,19 @@
       "^.+\\.ts$": "ts-jest"
     },
     "testRegex": ".*\\.test.ts$",
-    "moduleFileExtensions": [ "ts", "js" ]
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   },
   "husky": {
     "hooks": {
       "pre-push": "npm run build && npm run lint && npm run test"
     }
   },
-  "eslintIgnore": [ "test" ],
+  "eslintIgnore": [
+    "test"
+  ],
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
