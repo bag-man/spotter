@@ -1,62 +1,86 @@
-import { AuthorRawPosts } from '../../src/types'
 import { compileStats } from '../../src/lib/author'
+import { AuthorPosts } from '../../src/types'
 
 describe('Author compiler', () => {
-  it('should aggregate submissions and comments', () => {
-    const raw: AuthorRawPosts = {
+  it('should aggregate submissions and comments', async () => {
+    const raw = {
       comments: [
         {
           subreddit: 'videos',
-          count: 3,
         },
         {
           subreddit: 'megaphones',
-          count: 6,
+        },
+        {
+          subreddit: 'megaphones',
         },
         {
           subreddit: 'dinosaurs',
-          count: 9,
+        },
+        {
+          subreddit: 'dinosaurs',
+        },
+        {
+          subreddit: 'dinosaurs',
+        },
+        {
+          subreddit: 'dinosaurs',
         }
       ],
       submissions: [
         {
           subreddit: 'videos',
-          count: 7,
+        },
+        {
+          subreddit: 'videos',
+        },
+        {
+          subreddit: 'videos',
+        },
+        {
+          subreddit: 'videos',
         },
         {
           subreddit: 'dinosaurs',
-          count: 10,
+        },
+        {
+          subreddit: 'dinosaurs',
+        },
+        {
+          subreddit: 'dinosaurs',
         },
         {
           subreddit: 'submarines',
-          count: 1,
-        }
+        },
+        {
+          subreddit: 'submarines',
+        },
       ]
     }
 
-    const stats = compileStats(raw)
+    const stats = await compileStats(raw as AuthorPosts)
 
     expect(stats).toStrictEqual([
       {
         subreddit: 'dinosaurs',
-        comments: 9,
-        submissions: 10,
+        comments: 4,
+        submissions: 3,
       },
       {
         subreddit: 'videos',
-        comments: 3,
-        submissions: 7,
-      },
-      {
-        subreddit: 'megaphones',
-        comments: 6,
-        submissions: 0
+        comments: 1,
+        submissions: 4,
       },
       {
         subreddit: 'submarines',
         comments: 0,
-        submissions: 1,
-      }
+        submissions: 2,
+      },
+      {
+        subreddit: 'megaphones',
+        comments: 2,
+        submissions: 0
+      },
     ])
   })
 })
