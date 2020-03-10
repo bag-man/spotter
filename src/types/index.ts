@@ -63,3 +63,16 @@ export interface AuthorSubmission {
   date: Date
   link?: string
 }
+
+export interface PushshiftParams {
+  subreddit?: string
+  size: number
+  author: string
+  before: number
+  q?: string
+}
+
+export interface AuthorWord {
+  word: string
+  count: number
+}

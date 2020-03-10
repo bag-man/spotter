@@ -12,6 +12,14 @@ export const BOTS = [
 ]
 export const COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
 export const SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
+export const HATE_WORDS = [
+  'nigger',
+  'faggot',
+  'kike',
+  'slut',
+  'holocaust',
+  'race'
+]
 export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',
