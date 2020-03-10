@@ -1,4 +1,4 @@
-import { ParsedComment, ParsedPosts } from "../types"
+import { ParsedComment, PostStat } from "../types"
 import { BOTS } from './bootstrap'
 
 type RecursiveFn<T> = (xs: T[], out?: T[]) => Promise<T[]>
@@ -44,9 +44,8 @@ const reduceSeed: OperatorFn<ParsedComment> = (x, _xs, out) => {
   return x
 }
 
-const reducePosts: OperatorFn<ParsedPosts> = (x, _xs, out) => {
-  const exist = out.find(async (n, i) => {
-    await clearCallStack(i)
+const reducePosts: OperatorFn<PostStat> = (x, _xs, out) => {
+  const exist = out.find((n) => {
     return n.subreddit === x.subreddit
   })
 
@@ -65,4 +64,4 @@ const clearCallStack = async (length: number) => {
 }
 
 export const seedReducer = recursiveFactory<ParsedComment>(reduceSeed)
-export const postReducer = recursiveFactory<ParsedPosts>(reducePosts)
+export const postReducer = recursiveFactory<PostStat>(reducePosts)

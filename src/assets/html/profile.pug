@@ -1,0 +1,54 @@
+extend ./header
+include ./components
+
+block content 
+  div.header
+    +search(author)
+
+  div.container
+    div.table-responsive
+      table.table
+        thead
+          tr
+            th.col-md-4 Subreddit
+            th.col-md-4 Comments
+            th.col-md-4 Submissions 
+        tbody
+          each subreddit in stats
+            tr
+              td 
+                a(href=`/${author}/${subreddit.subreddit}`) #{subreddit.subreddit}
+              td #{subreddit.comments}
+              td #{subreddit.submissions}
+
+    div.table-responsive
+      table.table.comments
+        thead
+          tr
+            th.col-md-2 Posted 
+            th.comment.col-md-10 Submission
+        tbody
+          each submission in submissions
+            tr
+              td #{submission.date.toISOString().slice(0,10)}
+              if submission.link
+                td.wrap
+                  a(href='https://reddit.com' + submission.link) #{submission.title}
+              else
+                td.wrap #{submission.title}
+
+    div.table-responsive
+      table.table.comments
+        thead
+          tr
+            th.col-md-2 Posted 
+            th.comment.col-md-10 Comment
+        tbody
+          each comment in comments
+            tr
+              td #{comment.date.toISOString().slice(0,10)}
+              if comment.link
+                td.wrap
+                  a(href='https://reddit.com' + comment.link) #{comment.body}
+              else
+                td.wrap #{comment.body}
