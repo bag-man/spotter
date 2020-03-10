@@ -42,13 +42,13 @@ const getPosts = async (author: string, api: string, subreddit?: string): Promis
       }
     })).data.data)
 
-    if (!posts.length) break
+    if (!posts.length || posts.length > 9999) break
     before = posts[posts.length-1].created_utc
   }
 
   const data = {
     posts: [...posts],
-    stats: posts.length ? postReducer(posts) : []
+    stats: posts.length ? await postReducer(posts) : []
   }
 
   return data

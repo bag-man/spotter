@@ -40,7 +40,7 @@ const main = async () => {
     console.log(`${new Date(before * 1000).toISOString()}: ${totalCount}`)
     before = badComments[badComments.length-1].created_utc
 
-    const authors = seedReducer(badComments)
+    const authors = await seedReducer(badComments)
 
     await client.query('BEGIN')
     authors.map(insertAuthor)

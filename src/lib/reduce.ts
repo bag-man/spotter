@@ -1,12 +1,12 @@
 import { ParsedComment, ParsedPosts } from "../types"
 import { BOTS } from './bootstrap'
 
-type RecursiveFn<T> = (xs: T[], out?: T[]) => T[]
+type RecursiveFn<T> = (xs: T[], out?: T[]) => Promise<T[]>
 type OperatorFn<T> = (T: T, xs: T[], out: T[]) => T | void
 type FactoryFn = <T>(fn: OperatorFn<T>) => RecursiveFn<T>
 
 const recursiveFactory: FactoryFn = <T>(fn: OperatorFn<T>) => {
-  const recursive: RecursiveFn<T> = (xs, out = [])  => {
+  const recursive: RecursiveFn<T> = async (xs, out = []) => {
     const x = xs.shift()
 
     // eslint-disable-next-line
@@ -15,6 +15,8 @@ const recursiveFactory: FactoryFn = <T>(fn: OperatorFn<T>) => {
     if (res) {
       out.push(res)
     }
+
+    await clearCallStack(out.length)
 
     if (xs.length) {
       return recursive(xs, out)
@@ -43,7 +45,10 @@ const reduceSeed: OperatorFn<ParsedComment> = (x, _xs, out) => {
 }
 
 const reducePosts: OperatorFn<ParsedPosts> = (x, _xs, out) => {
-  const exist = out.find(n => n.subreddit === x.subreddit)
+  const exist = out.find(async (n, i) => {
+    await clearCallStack(i)
+    return n.subreddit === x.subreddit
+  })
 
   if (exist) {
     exist.count++
@@ -51,6 +56,12 @@ const reducePosts: OperatorFn<ParsedPosts> = (x, _xs, out) => {
   }
 
   return { count: 1, subreddit: x.subreddit }
+}
+
+const clearCallStack = async (length: number) => {
+  if (length % 10000 === 0) {
+    await new Promise(resolve => setTimeout(resolve, 0))
+  }
 }
 
 export const seedReducer = recursiveFactory<ParsedComment>(reduceSeed)
