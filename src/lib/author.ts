@@ -105,6 +105,7 @@ const compileWords = (raw: Post[]): AuthorWord[] => {
 
 export const compileComments = (raw: Post[] = []): AuthorComment[] => {
   return raw.map(x => ({
+    subreddit: x.subreddit,
     body: x.body || 'No body found',
     date: new Date(x.created_utc * 1000),
     link: x.permalink
