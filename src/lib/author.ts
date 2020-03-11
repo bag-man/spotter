@@ -3,6 +3,7 @@ import {
   SUBMISSION_API,
   HATE_SUBS,
   HATE_WORDS,
+  hateRegex,
 } from '../lib/bootstrap'
 import { postReducer } from './reduce'
 import axios from 'axios'
@@ -106,7 +107,7 @@ const compileWords = (raw: Post[]): AuthorWord[] => {
 export const compileComments = (raw: Post[] = []): AuthorComment[] => {
   return raw.map(x => ({
     subreddit: x.subreddit,
-    body: x.body || 'No body found',
+    body: x.body!.replace(hateRegex, `<span class='highlight'>$&</span>`) || 'No body found',
     date: new Date(x.created_utc * 1000),
     link: x.permalink
   }))

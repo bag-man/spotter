@@ -33,6 +33,6 @@ block content
               td #{comment.subreddit}
               if comment.link
                 td.wrap
-                  a(href='https://reddit.com' + comment.link) #{comment.body}
+                  a(href='https://reddit.com' + comment.link) !{comment.body}
               else
-                td.wrap #{comment.body}
+                td.wrap !{comment.body}

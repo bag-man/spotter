@@ -32,7 +32,6 @@ export const HATE_WORDS = [
   'spic',
   'nigger',
   'kike',
-  '(((',
   'scum',
   'fag',
   'snowflake',
@@ -47,6 +46,7 @@ export const HATE_WORDS = [
   'slut',
   'tranny',
 ]
+export const hateRegex = new RegExp(`${HATE_WORDS.join('|')}`)
 export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',
