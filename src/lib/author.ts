@@ -32,6 +32,38 @@ export const compileAuthor = async (author: string, subreddit?: string): Promise
   return profile
 }
 
+export const compileAuthorWord = async (author: string, word: string): Promise<Partial<Author>> => {
+  const rawWords = await getWord(author, word)
+  const words = compileWords(rawWords)
+  const comments = compileComments(rawWords) || []
+
+  const profile = { author, comments, words }
+
+  return profile
+}
+
+const getWord = async (author: string, word: string): Promise<Post[]> => {
+  const posts = []
+  let before = Math.round(new Date().getTime() / 1000)
+
+
+  while (!(posts.length % 1000)) {
+    const params: PushshiftParams = {
+      size: 1000,
+      author,
+      q: `"${word}"`,
+      before
+    }
+
+    posts.push(...(await axios.get(COMMENTS_API, { params })).data.data)
+
+    if (!posts.length || posts.length > 9999) break
+    before = posts[posts.length-1].created_utc
+  }
+
+  return posts
+}
+
 const getPosts = async (author: string, api: string, words: boolean, subreddit?: string): Promise<Post[]> => {
   const posts = []
   let before = Math.round(new Date().getTime() / 1000)
@@ -47,7 +79,7 @@ const getPosts = async (author: string, api: string, words: boolean, subreddit?:
 
     if (words) {
       delete params.subreddit
-      params.q = HATE_WORDS.join('|')
+      params.q = HATE_WORDS.map(word => `"${word}"`).join('|')
     }
 
     posts.push(...(await axios.get(api, { params })).data.data)

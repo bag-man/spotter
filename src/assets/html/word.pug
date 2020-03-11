@@ -1,0 +1,36 @@
+extend ./header
+include ./components
+
+block content 
+  div.header
+    +search(author)
+
+  div.container
+    div.table-responsive
+      table.table
+        thead
+          tr
+            th.col-md-2 Word
+            th.col-md-10 Used
+        tbody
+          each word in words
+            tr
+              td 
+                a(href=`/${author}/word/${word.word}`) #{word.word}
+              td #{word.count}
+
+    div.table-responsive
+      table.table.comments
+        thead
+          tr
+            th.col-md-2 Posted 
+            th.comment.col-md-10 Comment
+        tbody
+          each comment in comments
+            tr
+              td #{comment.date.toISOString().slice(0,10)}
+              if comment.link
+                td.wrap
+                  a(href='https://reddit.com' + comment.link) #{comment.body}
+              else
+                td.wrap #{comment.body}

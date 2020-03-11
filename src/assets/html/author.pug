@@ -26,12 +26,13 @@ block content
       table.table
         thead
           tr
-            th.col-md-2 Word
-            th.col-md-10 Used
+            th.col-md-2 word
+            th.col-md-10 used
         tbody
           each word in words
             tr
-              td #{word.word}
+              td 
+                a(href=`/${author}/word/${word.word}`) #{word.word}
               td #{word.count}
 
 

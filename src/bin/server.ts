@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import { compileAuthor } from '../lib/author'
+import { compileAuthor, compileAuthorWord } from '../lib/author'
 import { client, getLeaders } from '../lib/db'
 import { join } from 'path'
 import { compileFile } from 'pug'
@@ -13,6 +13,7 @@ const cacheTTL = 60 * 60 * 24
 const homeTemplate = compileFile(join(__dirname,  '../../src/assets/html/home.pug'))
 const authorTemplate = compileFile(join(__dirname,  '../../src/assets/html/author.pug'))
 const profileTemplate = compileFile(join(__dirname,  '../../src/assets/html/profile.pug'))
+const wordTemplate = compileFile(join(__dirname,  '../../src/assets/html/word.pug'))
 
 app.use(logger('dev'))
 app.use(compression())
@@ -39,6 +40,18 @@ app.get('/:author/:subreddit', async (req, res, next): Promise<void> => {
 
     res.setHeader('content-type', 'text/html')
     res.send(profileTemplate(profile))
+  } catch (e) {
+    next(e)
+  }
+})
+
+app.get('/:author/word/:word', async (req, res, next): Promise<void> => {
+  try {
+    const { author, word } = req.params
+    const profile = await compileAuthorWord(author, word)
+
+    res.setHeader('content-type', 'text/html')
+    res.send(wordTemplate(profile))
   } catch (e) {
     next(e)
   }
