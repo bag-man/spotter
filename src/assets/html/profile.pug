@@ -20,6 +20,18 @@ block content
                 a(href=`/${author}/${subreddit.subreddit}`) #{subreddit.subreddit}
               td #{subreddit.comments}
               td #{subreddit.submissions}
+    div.table-responsive
+      table.table
+        thead
+          tr
+            th.col-md-2 Word
+            th.col-md-10 Used
+        tbody
+          each word in words
+            tr
+              td 
+                a(href=`/${author}/word/${word.word}`) #{word.word}
+              td #{word.count}
 
     div.table-responsive
       table.table.comments
