@@ -19,11 +19,12 @@ import {
 
 export const compileAuthor = async (author: string, subreddit?: string): Promise<Author> => {
   const raw = await fetchRawPosts(author, subreddit)
-  const rawWords = await getPosts(author, COMMENTS_API, true)
 
+  const rawWords = subreddit ? [] :  await getPosts(author, COMMENTS_API, true)
+
+  const words = rawWords.length ? compileWords(rawWords) : compileWords(raw.comments)
   const comments = subreddit ? compileComments(raw.comments) : []
   const submissions = subreddit ? compileSubmissions(raw.submissions) : []
-  const words = compileWords(rawWords)
 
   const stats = await compileStats(raw)
   const markdown = compileMarkdown(stats, words)
@@ -37,7 +38,7 @@ export const compileAuthorWord = async (author: string, word: string): Promise<P
   const words = compileWords(rawWords)
   const comments = compileComments(rawWords) || []
 
-  const profile = { author, comments, words }
+  const profile = { author, comments, words, stats: [], submissions: [] }
 
   return profile
 }

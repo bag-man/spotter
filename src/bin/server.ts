@@ -11,9 +11,7 @@ const port = process.env.PORT || 3000
 const cacheTTL = 60 * 60 * 24
 
 const homeTemplate = compileFile(join(__dirname,  '../../src/assets/html/home.pug'))
-const authorTemplate = compileFile(join(__dirname,  '../../src/assets/html/author.pug'))
 const profileTemplate = compileFile(join(__dirname,  '../../src/assets/html/profile.pug'))
-const wordTemplate = compileFile(join(__dirname,  '../../src/assets/html/word.pug'))
 
 app.use(logger('dev'))
 app.use(compression())
@@ -51,7 +49,7 @@ app.get('/:author/word/:word', async (req, res, next): Promise<void> => {
     const profile = await compileAuthorWord(author, word)
 
     res.setHeader('content-type', 'text/html')
-    res.send(wordTemplate(profile))
+    res.send(profileTemplate(profile))
   } catch (e) {
     next(e)
   }
@@ -69,7 +67,7 @@ app.get('/:api?/:author', async (req, res, next): Promise<void> => {
     }
 
     res.setHeader('content-type', 'text/html')
-    res.send(authorTemplate(authorData))
+    res.send(profileTemplate(authorData))
   } catch (e) {
     next(e)
   }
