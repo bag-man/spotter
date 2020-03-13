@@ -72,14 +72,14 @@ describe('Author compiler', () => {
         submissions: 4,
       },
       {
-        subreddit: 'submarines',
-        comments: 0,
-        submissions: 2,
-      },
-      {
         subreddit: 'megaphones',
         comments: 2,
         submissions: 0
+      },
+      {
+        subreddit: 'submarines',
+        comments: 0,
+        submissions: 2,
       },
     ])
   })
