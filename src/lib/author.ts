@@ -152,9 +152,11 @@ const compileMarkdown = (stats: AuthorStats[], words: AuthorWord[]): string => {
   markdown += stats.map(x => `|${x.subreddit}|${x.comments}|${x.submissions}`).join('\n')
   markdown += `\n`
   markdown += `\n`
-  markdown += `| word | used |\n`
-  markdown += `|--------|:-------:|\n`
-  markdown += words.map(x => `|${x.word}|${x.count}`).join('\n')
+  if (words.length) {
+    markdown += `| word | used |\n`
+    markdown += `|--------|:-------:|\n`
+    markdown += words.map(x => `|${x.word}|${x.count}`).join('\n')
+  }
   return markdown
 }
 
