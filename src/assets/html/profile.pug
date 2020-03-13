@@ -4,6 +4,8 @@ include ./components
 block content 
   div.header
     +search(author)
+    button.copy(title='Copy markdown to clipboard')
+      i.fa.fa-copy.fa-lg
 
   div.container
     if stats.length
