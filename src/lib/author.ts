@@ -99,7 +99,7 @@ const compileWords = (raw: Post[]): AuthorWord[] => {
 
   return HATE_WORDS.map(word => ({
     // eslint-disable-next-line
-    count: raw.filter(x => x.body!.includes(word)).length,
+    count: raw.filter(x => x.body!.toLowerCase().includes(word)).length,
     word
   })).sort((a,b) => (a.count < b.count) ? 1 : -1).filter(x => x.count !== 0)
 }
