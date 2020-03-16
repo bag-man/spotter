@@ -15,6 +15,7 @@ export interface Author {
   comments: AuthorComment[]
   submissions: AuthorSubmission[]
   stats: AuthorStats[]
+  score: number
 }
 
 export interface AuthorPosts {

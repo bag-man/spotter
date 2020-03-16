@@ -1,6 +1,10 @@
 require('source-map-support').install()
 require('dotenv').config()
 
+export const WORD_POINTS = 1
+export const COMMENT_POINTS = 5
+export const SUBMISSIONS_POINTS = 10
+
 export const BOTS = [
   '[deleted]',
   'AutoModerator',
@@ -568,24 +572,17 @@ export const HATE_SUBS = [
   'qanon',
 ]
 
-// const { REDDIT_USER_AGENT, REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USERNAME, REDDIT_PASSWORD } = process.env
+/* eslint-disable */
+export const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK!
+const { REDDIT_USER_AGENT, REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USERNAME, REDDIT_PASSWORD } = process.env
 
-// export const CREDENTIALS = {
-//   user_agent: REDDIT_USER_AGENT!,
-//    o2a: {
-//     client_id: REDDIT_CLIENT_ID!,
-//     client_secret: REDDIT_CLIENT_SECRET!,
-//     username: REDDIT_USERNAME!,
-//     password: REDDIT_PASSWORD!,
-//   }
-// }
+export const CREDENTIALS = {
+  user_agent: REDDIT_USER_AGENT!,
+   o2a: {
+    client_id: REDDIT_CLIENT_ID!,
+    client_secret: REDDIT_CLIENT_SECRET!,
+    username: REDDIT_USERNAME!,
+    password: REDDIT_PASSWORD!,
+  }
+}
 
-// import RedditApi from 'reddit-ts'
-// const r = new RedditApi(credentials)
-// const comments = (await Promise.all(
-//   subreddits.map(subreddit => r.comments(subreddit))
-// )).flat().map(x =>
-//   ({ subreddit: x.subreddit, author: x.author, url: x.url })
-// )
-
-// console.log(comments)

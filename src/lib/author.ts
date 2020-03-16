@@ -3,6 +3,9 @@ import {
   SUBMISSION_API,
   HATE_SUBS,
   HATE_WORDS,
+  WORD_POINTS,
+  SUBMISSIONS_POINTS,
+  COMMENT_POINTS,
 } from '../lib/bootstrap'
 import { postReducer } from './reduce'
 import axios from 'axios'
@@ -28,7 +31,13 @@ export const compileAuthor = async (author: string, subreddit?: string): Promise
 
   const stats = await compileStats(raw)
   const markdown = compileMarkdown(stats, words)
-  const profile = { author, stats, markdown, submissions, comments, words }
+
+  const score =
+    (words.reduce((acc, cur) => acc += (cur.count * WORD_POINTS), 0) +
+    stats.reduce((acc, cur) => acc += ((cur.submissions * SUBMISSIONS_POINTS) + (cur.comments * COMMENT_POINTS)), 0)) *
+    stats.length
+
+  const profile = { author, stats, markdown, submissions, comments, words, score }
 
   return profile
 }

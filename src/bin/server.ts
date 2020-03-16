@@ -55,12 +55,13 @@ app.get('/:author/word/:word', async (req, res, next): Promise<void> => {
   }
 })
 
-app.get('/:api?/:author', async (req, res, next): Promise<void> => {
+app.get('/:author', async (req, res, next): Promise<void> => {
   try {
-    const { api, author } = req.params
+    const { author } = req.params
+    const { json } = req.query
     const authorData = await compileAuthor(author)
 
-    if (api) {
+    if (json) {
       res.setHeader('content-type', 'application/json')
       res.send(authorData)
       return next()
