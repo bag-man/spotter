@@ -4,6 +4,7 @@ require('dotenv').config()
 export const WORD_POINTS = 1
 export const COMMENT_POINTS = 5
 export const SUBMISSIONS_POINTS = 10
+export const SCORE_THRESHOLD = 2000
 
 export const BOTS = [
   '[deleted]',

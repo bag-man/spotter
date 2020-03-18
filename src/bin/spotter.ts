@@ -1,4 +1,4 @@
-import { CREDENTIALS, DISCORD_WEBHOOK } from '../lib/bootstrap'
+import { CREDENTIALS, DISCORD_WEBHOOK, BOTS, SCORE_THRESHOLD } from '../lib/bootstrap'
 import RedditApi from 'reddit-ts'
 import { compileAuthor } from '../lib/author'
 import axios from 'axios'
@@ -17,14 +17,9 @@ type Post = {
 }
 
 const notifyDiscord = async (profile: Author, submission: Post) => {
-  const content = `${profile.author} - ${profile.score}pts - [dotheyhate.us](dotheyhate.us/${profile.author})
-  ${submission.url}`
+  const content = `[${profile.score}pts] [${profile.author}](<https://dotheyhate.us/${profile.author}>) -> [${submission.title}](https://redd.it/${submission.url.split('/')[6]}) - ${submission.subreddit}`
 
-  await axios.post(DISCORD_WEBHOOK, { content }, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+  await axios.post(DISCORD_WEBHOOK, { content })
 }
 
 const main = async () => {
@@ -39,12 +34,17 @@ const main = async () => {
         seen.push(submission.id)
       }
 
-      if (!seen.includes(submission.id)) {
+      if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
         const profile = await compileAuthor(submission.author)
-        if (profile.score > 2000) {
+
+        console.log(`${profile.author}: ${profile.score}`)
+
+        if (profile.score > SCORE_THRESHOLD) {
           await notifyDiscord(profile, submission)
         }
+
         seen.push(submission.id)
+
         if (seen.length > 50) {
           seen.shift()
         }
