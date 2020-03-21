@@ -20,12 +20,13 @@ type Post = {
 }
 
 const notifyDiscord = async (profile: Author, submission: Post) => {
-  let content = `[${profile.score}pts] [${profile.author}](<https://dotheyhate.us/${profile.author}>)`
-  content += `-> [${submission.title}](https://redd.it/${submission.url.split('/')[6]}) - ${submission.subreddit}`
+  const { score, author } = profile
+  const { title, url, subreddit } = submission
+  let content = `[${score}pts] [${author}](<https://dotheyhate.us/${author}>)`
+  content += `-> [${title}](${url}) - ${subreddit}`
 
   await axios.post(DISCORD_WEBHOOK, { content })
 }
-
 
 class Watcher {
   private subreddit: string;
