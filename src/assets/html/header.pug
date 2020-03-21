@@ -9,6 +9,13 @@ html
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
     link(rel='stylesheet', href='/assets/css/index.css')
     link(rel='icon' type='image/png' href='https://raw.githubusercontent.com/bag-man/nodeup/master/public/assets/imgs/favicon.ico')
+    script(async src="https://www.googletagmanager.com/gtag/js?id=UA-53020648-5")
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-53020648-5');
   body
     main.content
       block content
