@@ -33,9 +33,9 @@ export const compileAuthor = async (author: string, subreddit?: string): Promise
   const markdown = compileMarkdown(stats, words)
 
   const score =
-    (words.reduce((acc, cur) => acc += (cur.count * WORD_POINTS), 0) +
-    stats.reduce((acc, cur) => acc += ((cur.submissions * SUBMISSIONS_POINTS) + (cur.comments * COMMENT_POINTS)), 0)) *
-    stats.length
+    Math.round((words.reduce((acc, cur) => acc += (Math.sqrt(cur.count * WORD_POINTS)), 0) +
+    stats.reduce((acc, cur) => acc += (Math.sqrt((cur.submissions * SUBMISSIONS_POINTS)
+      + (cur.comments * COMMENT_POINTS))), 0)))
 
   const profile = { author, stats, markdown, submissions, comments, words, score }
 

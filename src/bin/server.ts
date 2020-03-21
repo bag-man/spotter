@@ -2,7 +2,6 @@ import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
 import { compileAuthor, compileAuthorWord } from '../lib/author'
-import { client, getLeaders } from '../lib/db'
 import { join } from 'path'
 import { compileFile } from 'pug'
 
@@ -23,9 +22,8 @@ app.use((_req, res, next) => {
 
 app.get('/', async (_req, res, next): Promise<void> => {
   try {
-    const leaderboard = await getLeaders()
     res.setHeader('content-type', 'text/html')
-    res.send(homeTemplate({ leaderboard }))
+    res.send(homeTemplate())
   } catch (e) {
     next(e)
   }
@@ -75,6 +73,5 @@ app.get('/:author', async (req, res, next): Promise<void> => {
 })
 
 app.listen(port, async () => {
-  await client.connect()
   console.log(`Listening on http://localhost:${port}`)
 })

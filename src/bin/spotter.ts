@@ -6,7 +6,8 @@ import { Author } from '../types'
 
 const r = new RedditApi(CREDENTIALS)
 
-const REQUEST_DELAY = 30 * 1000
+const REQUEST_DELAY = 60 * 1000
+const REQUEST_OFFSET = 10 * 1000
 
 type Post = {
   id: string
@@ -25,7 +26,6 @@ const notifyDiscord = async (profile: Author, submission: Post) => {
   await axios.post(DISCORD_WEBHOOK, { content })
 }
 
-const subreddits = [ 'ukpolitics', 'videos', 'gifs', 'worldnews', 'funny', 'news', 'gaming' ]
 
 class Watcher {
   private subreddit: string;
@@ -40,35 +40,46 @@ class Watcher {
 
     while (true) {
       const submissions = await r.threads(this.subreddit)
+        .catch(err => console.error(`Failed to get from reddit ${err.message}`))
 
-      for (const submission of submissions) {
-        if (first) {
-          seen.push(submission.id)
-        }
-
-        if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
-          const profile = await compileAuthor(submission.author)
-
-          if (profile.score > SCORE_THRESHOLD) {
-            await notifyDiscord(profile, submission)
+      if (submissions) {
+        for (const submission of submissions) {
+          if (first) {
+            seen.push(submission.id)
           }
 
-          seen.push(submission.id)
+          if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
+            const profile = await compileAuthor(submission.author)
 
-          if (seen.length > 50) {
-            seen.shift()
+            if (profile.score > SCORE_THRESHOLD) {
+              await notifyDiscord(profile, submission)
+            }
+
+            seen.push(submission.id)
+
+            if (seen.length > 50) {
+              seen.shift()
+            }
           }
         }
       }
 
       first = false
-      await new Promise(resolve => setTimeout(resolve, REQUEST_DELAY))
+      await sleep(REQUEST_DELAY)
     }
   }
 }
 
-const main = () => {
-  subreddits.forEach(sub => new Watcher(sub).watch())
+const sleep = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const main = async () => {
+  const subreddits = [ 'ukpolitics', 'videos', 'gifs', 'worldnews', 'funny', 'news', 'gaming' ]
+
+  for(const sub of subreddits) {
+    new Watcher(sub).watch()
+    await sleep(REQUEST_OFFSET)
+  }
+
   console.log('Listening for the hate...')
 }
 
