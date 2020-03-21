@@ -6,6 +6,8 @@ import { Author } from '../types'
 
 const r = new RedditApi(CREDENTIALS)
 
+const REQUEST_DELAY = 30 * 1000
+
 type Post = {
   id: string
   url: string
@@ -23,38 +25,51 @@ const notifyDiscord = async (profile: Author, submission: Post) => {
   await axios.post(DISCORD_WEBHOOK, { content })
 }
 
-const main = async () => {
-  const seen: string[] = []
-  let first = true
+const subreddits = [ 'ukpolitics', 'videos', 'gifs', 'worldnews', 'funny', 'news', 'gaming' ]
 
-  while (true) {
-    const submissions = await r.threads('askreddit')
+class Watcher {
+  private subreddit: string;
 
-    for (const submission of submissions) {
-      if (first) {
-        seen.push(submission.id)
-      }
-
-      if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
-        const profile = await compileAuthor(submission.author)
-
-        console.log(`${profile.author}: ${profile.score}`)
-
-        if (profile.score > SCORE_THRESHOLD) {
-          await notifyDiscord(profile, submission)
-        }
-
-        seen.push(submission.id)
-
-        if (seen.length > 50) {
-          seen.shift()
-        }
-      }
-    }
-
-    first = false
-    await new Promise(resolve => setTimeout(resolve, 5000))
+  constructor (subreddit: string) {
+    this.subreddit = subreddit
   }
+
+  async watch () {
+    const seen: string[] = []
+    let first = true
+
+    while (true) {
+      const submissions = await r.threads(this.subreddit)
+
+      for (const submission of submissions) {
+        if (first) {
+          seen.push(submission.id)
+        }
+
+        if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
+          const profile = await compileAuthor(submission.author)
+
+          if (profile.score > SCORE_THRESHOLD) {
+            await notifyDiscord(profile, submission)
+          }
+
+          seen.push(submission.id)
+
+          if (seen.length > 50) {
+            seen.shift()
+          }
+        }
+      }
+
+      first = false
+      await new Promise(resolve => setTimeout(resolve, REQUEST_DELAY))
+    }
+  }
+}
+
+const main = () => {
+  subreddits.forEach(sub => new Watcher(sub).watch())
+  console.log('Listening for the hate...')
 }
 
 main()
