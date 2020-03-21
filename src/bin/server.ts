@@ -1,7 +1,6 @@
 import * as express from 'express'
 import * as logger from 'morgan'
 import * as compression from 'compression'
-import * as basicAuth from 'express-basic-auth'
 
 import { compileAuthor, compileAuthorWord } from '../lib/author'
 import { join } from 'path'
@@ -14,10 +13,6 @@ const cacheTTL = 60 * 60 * 24
 const homeTemplate = compileFile(join(__dirname,  '../../src/assets/html/home.pug'))
 const profileTemplate = compileFile(join(__dirname,  '../../src/assets/html/profile.pug'))
 
-app.use(basicAuth({
-  users: { discord: process.env.PASSWORD || '1312' },
-  challenge: true
-}))
 app.use(logger('dev'))
 app.use(compression())
 app.use('/assets', express.static(join(__dirname, '../assets')))
