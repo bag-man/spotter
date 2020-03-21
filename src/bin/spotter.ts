@@ -6,8 +6,8 @@ import { Author } from '../types'
 
 const r = new RedditApi(CREDENTIALS)
 
-const REQUEST_DELAY = 60 * 1000
-const REQUEST_OFFSET = 10 * 1000
+const REQUEST_DELAY = 6 * 1000
+const REQUEST_OFFSET = 1 * 1000
 
 type Post = {
   id: string
@@ -40,16 +40,18 @@ class Watcher {
 
     while (true) {
       const submissions = await r.threads(this.subreddit)
-        .catch(err => console.error(`Failed to get from reddit ${err.message}`))
+        .catch(err => console.error(`Failed to query reddit: ${err.message}`))
 
       if (submissions) {
-        for (const submission of submissions) {
+        await Promise.all(submissions.map(async submission => {
           if (first) {
             seen.push(submission.id)
           }
 
           if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
             const profile = await compileAuthor(submission.author)
+
+            console.log(this.subreddit, profile.author, `${profile.score}pts`)
 
             if (profile.score > SCORE_THRESHOLD) {
               await notifyDiscord(profile, submission)
@@ -61,7 +63,7 @@ class Watcher {
               seen.shift()
             }
           }
-        }
+        }))
       }
 
       first = false

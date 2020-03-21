@@ -23,7 +23,7 @@ import {
 export const compileAuthor = async (author: string, subreddit?: string): Promise<Author> => {
   const raw = await fetchRawPosts(author, subreddit)
 
-  const rawWords = subreddit ? [] :  await getPosts(author, COMMENTS_API, true)
+  const rawWords = subreddit ? [] : await getPosts(author, COMMENTS_API, true)
 
   const words = rawWords.length ? compileWords(rawWords) : compileWords(raw.comments)
   const comments = subreddit ? compileComments(raw.comments) : []
@@ -65,7 +65,12 @@ const getWord = async (author: string, word: string): Promise<Post[]> => {
       before
     }
 
-    posts.push(...(await axios.get(COMMENTS_API, { params })).data.data)
+    try {
+      posts.push(...(await axios.get(COMMENTS_API, { params })).data.data)
+    } catch (cause) {
+      console.error(`Failed to talk to pushshift: ${cause.message}`)
+      break
+    }
 
     if (!posts.length || posts.length > 9999) break
     before = posts[posts.length-1].created_utc
@@ -92,7 +97,12 @@ const getPosts = async (author: string, api: string, words: boolean, subreddit?:
       params.q = HATE_WORDS.map(word => `"${word}"`).join('|')
     }
 
-    posts.push(...(await axios.get(api, { params })).data.data)
+    try {
+      posts.push(...(await axios.get(api, { params })).data.data)
+    } catch (cause) {
+      console.error(`Failed to talk to pushshift: ${cause.message}`)
+      break
+    }
 
     if (!posts.length || posts.length > 9999) break
     before = posts[posts.length-1].created_utc
