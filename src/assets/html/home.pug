@@ -1,7 +1,6 @@
 extend ./header
-include ./components
 
 block content 
-  div.header
+  div.home
     form(action='javascript:redirect()' autocomplete='off')
-      input.search(type='text', placeholder='Search for a reddit user', name='user', onfocus="this.value=''", value=author)
+      input.search.home-search(type='text', placeholder='Search for a reddit user', name='user', onfocus="this.value=''", value=author)
