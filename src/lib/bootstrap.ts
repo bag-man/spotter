@@ -1,6 +1,8 @@
 require('source-map-support').install()
 require('dotenv').config()
 
+import { HATE_DICTIONARY } from './dictionary'
+
 export const WORD_POINTS = 1
 export const COMMENT_POINTS = 5
 export const SUBMISSIONS_POINTS = 10
@@ -15,32 +17,20 @@ export const BOTS = [
   'VredditDownloader',
   'TrumpTrainBot'
 ]
+
 export const COMMENTS_API = 'https://api.pushshift.io/reddit/comment/search'
 export const SUBMISSION_API = 'https://api.pushshift.io/reddit/submission/search'
-export const HATE_WORDS = [
-  'western values',
-  'cultural marxism',
-  'cultural marxist',
-  'great replacement',
-  'ethno state',
-  'ethnostate',
-  'white race',
-  'white identity',
-  'indentitarian',
-  'indentitarians',
-  'race realist',
-  'race realism',
-  'global elites',
-  'global elite',
-  'globalist',
-  'holocaust',
-  'spic',
-  'nigger',
-  'kike',
-  'fag',
-  'snowflake',
-  'cuck',
-]
+
+const flattenDictionary = () => {
+  const flat: string[] = []
+  for (const x in HATE_DICTIONARY) {
+    flat.push(...HATE_DICTIONARY[x])
+  }
+  return flat
+}
+
+export const HATE_WORDS = flattenDictionary()
+
 export const HATE_SUBS = [
   'ThuleanPerspective',
   'eugenics',
