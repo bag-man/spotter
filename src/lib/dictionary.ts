@@ -166,8 +166,8 @@ export const HATE_DICTIONARY: Record<string, string[]> = {
     "1352",
     "thirteen fiftytwo",
     "thirteen fifty two",
-    "despite making up only 13%",
-    "despite only making up 13%",
+    "despite making up only 13",
+    "despite only making up 13",
   ],
 
   racial_segregation: [
