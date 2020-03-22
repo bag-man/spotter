@@ -2,28 +2,19 @@ import { CREDENTIALS, DISCORD_WEBHOOK, BOTS, SCORE_THRESHOLD } from '../lib/boot
 import RedditApi from 'reddit-ts'
 import { compileAuthor } from '../lib/author'
 import axios from 'axios'
-import { Author } from '../types'
+import { Author, RawPost } from '../types'
+import { saveSpot } from '../lib/redis'
 
 const r = new RedditApi(CREDENTIALS)
 
 const REQUEST_DELAY = 6 * 1000
 const REQUEST_OFFSET = 1 * 1000
 
-type Post = {
-  id: string
-  url: string
-  author: string
-  subreddit: string
-  title: string
-  body: string
-  date: Date
-}
-
-const notifyDiscord = async (profile: Author, submission: Post) => {
+const notifyDiscord = async (profile: Author, submission: RawPost) => {
   const { score, author } = profile
-  const { title, url, subreddit } = submission
+  const { title, shortLink, subreddit } = submission
   let content = `[${score}pts] [${author}](<https://dotheyhate.us/${author}>)`
-  content += `-> [${title}](<${url}>) - ${subreddit}`
+  content += `-> [${title}](<${shortLink}>) - ${subreddit}`
 
   await axios.post(DISCORD_WEBHOOK, { content })
 }
@@ -52,10 +43,12 @@ class Watcher {
           if (!seen.includes(submission.id) && !BOTS.find(n => n === submission.author)) {
             const profile = await compileAuthor(submission.author)
 
-            console.log(this.subreddit, profile.author, `${profile.score}pts`)
+            const shortLink = `https://redd.it/${submission.id.substring(3)}`
+            console.log(this.subreddit, profile.author, `${profile.score}pts`, shortLink)
 
             if (profile.score > SCORE_THRESHOLD) {
-              await notifyDiscord(profile, submission)
+              await notifyDiscord(profile, { ...submission, shortLink })
+              await saveSpot(profile, { ...submission, shortLink })
             }
 
             seen.push(submission.id)

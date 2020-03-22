@@ -77,3 +77,15 @@ export interface AuthorWord {
   word: string
   count: number
 }
+
+export interface RawPost {
+  id: string
+  url: string
+  author: string
+  subreddit: string
+  title: string
+  body: string
+  date: Date
+  shortLink?: string
+}
+

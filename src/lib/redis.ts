@@ -1,5 +1,5 @@
 import { Tedis } from 'tedis'
-import { Author } from '../types'
+import { Author, RawPost } from '../types'
 
 const tedis = new Tedis({
   port: Number(process.env.REDIS_PORT) || 6379,
@@ -20,4 +20,19 @@ export const getProfile = async (user: string): Promise<Author | null> => {
   }
 
   return JSON.parse(profile as string)
+}
+
+export const saveSpot = async (profile: Author, submission: RawPost): Promise<void> => {
+  const key = `spot:${profile.author}`
+  await tedis.command('SET', key, JSON.stringify({ ...profile, ...submission }), 'EX', TTL)
+}
+
+export const getSpots = async (): Promise<null | Author[]> => {
+  const keys = await tedis.keys(`spot:*`)
+  if (keys.length) {
+    /* eslint-disable-next-line */
+    const spots = await tedis.mget(keys.pop()!, ...keys)
+    return spots.map(spot => JSON.parse(spot as string) as Author)
+  }
+  return null
 }

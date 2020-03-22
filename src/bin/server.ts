@@ -5,6 +5,7 @@ import * as compression from 'compression'
 import { compileAuthor, compileAuthorWord } from '../lib/author'
 import { join } from 'path'
 import { compileFile } from 'pug'
+import { getSpots } from '../lib/redis'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -24,7 +25,8 @@ app.use((_req, res, next) => {
 app.get('/', async (_req, res, next): Promise<void> => {
   try {
     res.setHeader('content-type', 'text/html')
-    res.send(homeTemplate())
+    res.header('Cache-Control', `max-age=0`)
+    res.send(homeTemplate({ spots: await getSpots() }))
   } catch (e) {
     next(e)
   }

@@ -1,6 +1,25 @@
 extend ./header
 
 block content 
-  div.home
+  div.header
     form(action='javascript:redirect()' autocomplete='off')
-      input.search.home-search(type='text', placeholder='Search for a reddit user', name='user', onfocus="this.value=''", value=author)
+      input.search(type='text', placeholder='Search for a reddit user', name='user', onfocus="this.value=''", value=author)
+
+  div.container
+    div.table-responsive
+      table.table
+        thead
+          tr
+            th.col-md-2 Author
+            th.col-md-8 Title
+            th.col-md-1 Subreddit
+            th.col-md-1 Score
+        tbody
+          each spot in spots
+            tr
+              td 
+                a(href=`/${spot.author}/`) #{spot.author}
+              td 
+                a(href=spot.shortLink) #{spot.title}
+              td #{spot.subreddit}
+              td #{spot.score}pts
