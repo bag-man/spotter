@@ -19,9 +19,16 @@ import {
   PushshiftParams,
   AuthorWord
 } from '../types'
-import { saveProfile } from './redis'
+import { saveProfile, getProfile } from './redis'
 
 export const compileAuthor = async (author: string, subreddit?: string): Promise<Author> => {
+  if (!subreddit) {
+    const cachedProfile = await getProfile(author)
+    if (cachedProfile) {
+      return cachedProfile
+    }
+  }
+
   const raw = await fetchRawPosts(author, subreddit)
 
   const rawWords = subreddit ? [] : await getPosts(author, COMMENTS_API, true)
@@ -39,6 +46,7 @@ export const compileAuthor = async (author: string, subreddit?: string): Promise
       + (cur.comments * COMMENT_POINTS))), 0)))
 
   const profile = { author, stats, markdown, submissions, comments, words, score }
+
   await saveProfile(profile)
 
   return profile
