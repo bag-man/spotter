@@ -15,7 +15,8 @@ export const saveProfile = async (profile: Author): Promise<void> => {
 }
 
 export const getProfile = async (user: string): Promise<Author | null> => {
-  const profile = await tedis.get(`user:${user}`.toLowerCase())
+  const key = `user:${user}`.toLowerCase()
+  const profile = await tedis.get(key)
   if (!profile) {
     return null
   }
