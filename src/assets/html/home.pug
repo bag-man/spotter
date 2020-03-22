@@ -14,15 +14,11 @@ block content
               th.col-md-2 Author
               th.col-md-6 Title
               th.col-md-2 Time
-              th.col-md-1 Subreddit
-              th.col-md-1 Score
           tbody
             each spot in spots
               tr
-                td 
-                  a(href=`/${spot.author}/`) #{spot.author}
+                td.wrap 
+                  a(href=`/${spot.author}/`) #{spot.author} - #{spot.score}pts
                 td.wrap
                   a(href=spot.shortLink) #{spot.title}
                 td #{spot.since}
-                td #{spot.subreddit}
-                td #{spot.score}pts
