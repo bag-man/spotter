@@ -1,3 +1,4 @@
+import * as moment from 'moment'
 import { Tedis } from 'tedis'
 import { Author, RawPost } from '../types'
 
@@ -27,12 +28,14 @@ export const saveSpot = async (profile: Author, submission: RawPost): Promise<vo
   await tedis.command('SET', key, JSON.stringify({ ...profile, ...submission }), 'EX', TTL)
 }
 
-export const getSpots = async (): Promise<null | Author[]> => {
+export const getSpots = async (): Promise<null | any[]> => {
+  // TODO: type this up properly
   const keys = await tedis.keys(`spot:*`)
   if (keys.length) {
     /* eslint-disable-next-line */
-    const spots = await tedis.mget(keys.pop()!, ...keys)
-    return spots.map(spot => JSON.parse(spot as string) as Author)
+    let spots: any[] = await tedis.mget(keys.pop()!, ...keys)
+    spots = spots.map(spot => JSON.parse(spot as string) as Author)
+    return spots.map(spot => ({ ...spot, since: moment(spot.date).fromNow() }))
   }
   return null
 }

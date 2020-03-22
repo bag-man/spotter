@@ -87,5 +87,6 @@ export interface RawPost {
   body: string
   date: Date
   shortLink?: string
+  since?: string
 }
 

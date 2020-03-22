@@ -12,7 +12,8 @@ block content
           thead
             tr
               th.col-md-2 Author
-              th.col-md-8 Title
+              th.col-md-6 Title
+              th.col-md-2 Time
               th.col-md-1 Subreddit
               th.col-md-1 Score
           tbody
@@ -22,5 +23,6 @@ block content
                   a(href=`/${spot.author}/`) #{spot.author}
                 td 
                   a(href=spot.shortLink) #{spot.title}
+                td #{spot.since}
                 td #{spot.subreddit}
                 td #{spot.score}pts
