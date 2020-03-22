@@ -23,7 +23,7 @@ const notifyDiscord = async (profile: Author, submission: Post) => {
   const { score, author } = profile
   const { title, url, subreddit } = submission
   let content = `[${score}pts] [${author}](<https://dotheyhate.us/${author}>)`
-  content += `-> [${title}](${url}) - ${subreddit}`
+  content += `-> [${title}](<${url}>) - ${subreddit}`
 
   await axios.post(DISCORD_WEBHOOK, { content })
 }

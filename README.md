@@ -10,8 +10,9 @@ cd spotter
 # Install the dependencies 
 npm i  
 
-# Launch a postgres database in a docker container
-docker run -d -p 5432:5432 --name spotter-postgres -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=db_spotter -e POSTGRES_USER=spotter postgres:latest   
+# Launch a postgres database and redis in a docker container
+docker run --restart always -d -p 5432:5432 --name spotter-postgres -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=db_spotter -e POSTGRES_USER=spotter postgres:latest   
+docker run --restart always -d -p 6379:6379 --name redis redis
 
 # Copy the configuration template to the live configuration
 cp .env.schema .env  
