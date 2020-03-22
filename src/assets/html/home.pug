@@ -5,7 +5,7 @@ block content
     form(action='javascript:redirect()' autocomplete='off')
       input.search(type='text', placeholder='Search for a reddit user', name='user', onfocus="this.value=''", value=author)
 
-  if spots.length
+  if spots && spots.length
     div.container
       div.table-responsive
         table.table
