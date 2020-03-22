@@ -10,12 +10,12 @@ const tedis = new Tedis({
 const TTL = 60 * 60 * 24
 
 export const saveProfile = async (profile: Author): Promise<void> => {
-  const key = `user:${profile.author}`
+  const key = `user:${profile.author}`.toLowerCase()
   await tedis.command('SET', key, JSON.stringify(profile), 'EX', TTL)
 }
 
 export const getProfile = async (user: string): Promise<Author | null> => {
-  const profile = await tedis.get(`user:${user}`)
+  const profile = await tedis.get(`user:${user}`.toLowerCase())
   if (!profile) {
     return null
   }
@@ -24,7 +24,7 @@ export const getProfile = async (user: string): Promise<Author | null> => {
 }
 
 export const saveSpot = async (profile: Author, submission: RawPost): Promise<void> => {
-  const key = `spot:${profile.author}`
+  const key = `spot:${profile.author}`.toLowerCase()
   await tedis.command('SET', key, JSON.stringify({ ...profile, ...submission }), 'EX', TTL)
 }
 
