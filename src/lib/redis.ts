@@ -35,7 +35,7 @@ export const getSpots = async (): Promise<null | any[]> => {
     /* eslint-disable-next-line */
     let spots: any[] = await tedis.mget(keys.pop()!, ...keys)
     spots = spots.map(spot => JSON.parse(spot as string) as Author)
-    return spots.map(spot => ({ ...spot, since: moment(spot.date).fromNow() }))
+    return spots.map(spot => ({ ...spot, since: moment(spot.date).fromNow() })).reverse()
   }
   return null
 }
