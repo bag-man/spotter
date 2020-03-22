@@ -130,7 +130,7 @@ const compileWords = (raw: Post[]): AuthorWord[] => {
     // eslint-disable-next-line
     count: raw.filter(x => x.body!.toLowerCase().includes(word)).length,
     word
-  })).sort((a,b) => (a.count < b.count) ? 1 : -1).filter(x => x.count !== 0)
+  })).sort((a,b) => (a.count < b.count) ? 1 : -1).filter(x => x.count > 3)
 }
 
 export const compileComments = (raw: Post[] = []): AuthorComment[] => {
@@ -145,6 +145,7 @@ export const compileComments = (raw: Post[] = []): AuthorComment[] => {
 export const compileSubmissions = (raw: Post[] = []): AuthorSubmission[] => {
   return raw.map(x => ({
     title: x.title || 'No title found',
+    subreddit: x.subreddit,
     date: new Date(x.created_utc * 1000),
     link: x.permalink
   }))

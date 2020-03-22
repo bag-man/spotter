@@ -17,8 +17,8 @@ block content
           tbody
             each spot in spots
               tr
-                td.wrap 
-                  a(href=`/${spot.author}/`) #{spot.author} - #{spot.score}pts
+                td
+                  a(href=`/${spot.author}/`) #{spot.author}
                 td.wrap
                   a(href=spot.shortLink) #{spot.title}
                 td #{spot.since}
