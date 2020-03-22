@@ -109,7 +109,6 @@ export const HATE_DICTIONARY: Record<string, string[]> = {
   ],
 
   holocaust_reference: [
-    "gassed",
     "zyklon",
     "shoahed",
     "final solution"
