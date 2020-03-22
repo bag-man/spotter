@@ -4,8 +4,8 @@ block content
   div.header
     form(action='javascript:redirect()' autocomplete='off')
       input.search(type='text', placeholder='Search for another user', name='user', onfocus="this.value=''", value=author)
-    span #{score}pts
     button.copy(title='Copy markdown to clipboard')
+      span.points #{score}pts
       i.fa.fa-copy.fa-lg
 
   if !comments.length && !submissions.length && !words.length && !stats.length
