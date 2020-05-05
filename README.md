@@ -1,3 +1,6 @@
+This project is in the experimental stage. I wanted to build a service that would hopefully be able to detect hateful reddit users attempting to spread propaganda before they achieved a critical mass. It can be previewed [here](https://dotheyhate.us).
+
+
 For this to work you are going to need to have [nodejs](https://tecadmin.net/install-latest-nodejs-on-fedora/) and [docker](https://docs.docker.com/install/linux/docker-ce/fedora/) installed. Then you can use these commands to work on the project. 
 
 ```
