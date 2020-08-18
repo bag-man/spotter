@@ -21,11 +21,18 @@ import {
 } from '../types'
 import { saveProfile, getProfile } from './redis'
 
+const getPolCompFlair = async (author: string) => {
+  let [pcmFlair] = await getPosts(author, COMMENTS_API, false, 'politicalCompassMemes', 1)
+  let [pcbFlair] = await getPosts(author, COMMENTS_API, false, 'polCompBall', 1)
+  return { pcbFlair: pcbFlair ? pcbFlair.author_flair_text : null,  pcmFlair:  pcmFlair ? pcmFlair.author_flair_text : null }
+}
+
 export const compileAuthor = async (author: string, subreddit?: string): Promise<Author> => {
   if (!subreddit) {
     const cachedProfile = await getProfile(author)
     if (cachedProfile) {
-      return cachedProfile
+      const flair = await getPolCompFlair(author)
+      return { ...cachedProfile, flair }
     }
   }
 
@@ -45,7 +52,8 @@ export const compileAuthor = async (author: string, subreddit?: string): Promise
     stats.reduce((acc, cur) => acc += (Math.sqrt((cur.submissions * SUBMISSIONS_POINTS)
       + (cur.comments * COMMENT_POINTS))), 0)))
 
-  const profile = { author, stats, markdown, submissions, comments, words, score }
+  const flair = await getPolCompFlair(author)
+  const profile = { author, stats, markdown, submissions, comments, words, score, flair }
 
   await saveProfile(profile)
 
@@ -89,7 +97,7 @@ const getWord = async (author: string, word: string): Promise<Post[]> => {
   return posts
 }
 
-const getPosts = async (author: string, api: string, words: boolean, subreddit?: string): Promise<Post[]> => {
+const getPosts = async (author: string, api: string, words: boolean, subreddit?: string, limit?: number): Promise<Post[]> => {
   const posts = []
   let before = Math.round(new Date().getTime() / 1000)
 

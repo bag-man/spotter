@@ -224,12 +224,6 @@ export const HATE_DICTIONARY: Record<string, string[]> = {
     "everything is rape"
   ],
 
-  antilgbt_slur: [
-    "there are only 2 genders",
-    "there are only two genders",
-    "facts don't care about your feelings",
-  ],
-
   anticommunism: [
     "communazi",
     "leftard",
@@ -241,4 +235,93 @@ export const HATE_DICTIONARY: Record<string, string[]> = {
     "pinochet did nothing wrong",
     "death is preferable to communism"
   ],
+
+  antisemitic_slurs: [
+    "kike",
+    "hooknose",
+    "hook nose",
+    "chosenite",
+    "yid",
+    "yids",
+  ],
+
+  islamophobic_slur: [
+    "ayrab",
+    "mooslum",
+    "mudslime",
+    "shitskin",
+    "sandnigger",
+    "camelfucker",
+    "goatfucker",
+    "muzz",
+    "muzzies",
+    "muzzrat",
+    "towelhead",
+  ],
+
+  antiasian_slur: [
+    "ching chong",
+    "chink*",
+    "japs",
+    "gook",
+    "gookess",
+    "gooks"
+  ],
+
+  antilatino_slur: [
+    "higger",
+    "spic",
+    "spics",
+    "wetback"
+  ],
+
+  antiblack_slur: [
+    "nigglet",
+    "nignog",
+    "nig nog",
+    "nig nogs",
+    "nigword",
+    "nigger",
+    "niggers",
+    "blek",
+    "bleks",
+    "coon",
+    "coons",
+    "negro",
+    "negros",
+    "negroes",
+    "worthless ape",
+    "useless ape",
+    "dindu",
+    "gollywogs",
+    "gollywog",
+    "chicongo"
+  ],
+
+  antilgbt_slur: [
+    "fag",
+    "fags",
+    "faggy",
+    "faggot",
+    "faggots",
+    "furfag",
+    "tranny",
+    "trannies",
+    "transtrender",
+    "phaggot",
+    "there are only 2 genders",
+    "there are only two genders",
+  ],
+
+  emasculate_slur: [
+    "cuck",
+    "cucks",
+    "incel",
+    "incels",
+    "beta",
+    "betas",
+    "soyboy",
+    "soy boy",
+  ]
+
 }

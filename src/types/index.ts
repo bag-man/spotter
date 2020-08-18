@@ -16,6 +16,10 @@ export interface Author {
   submissions: AuthorSubmission[]
   stats: AuthorStats[]
   score: number
+  flair: {
+    pcbFlair: string | null
+    pcmFlair: string | null
+  }
 }
 
 export interface AuthorPosts {
@@ -51,6 +55,7 @@ export interface Post {
   // eslint-disable-next-line
   created_utc: number
   count: number
+  author_flair_text: string
 }
 
 export interface AuthorComment {

@@ -4,6 +4,9 @@ block content
   div.header
     form(action='javascript:redirect()' autocomplete='off')
       input.search(type='text', placeholder='Search for another user', name='user', onfocus="this.value=''", value=author)
+    div.flair
+      #{flair.pcbFlair}
+      #{flair.pcmFlair}
     button.copy(title='Copy markdown to clipboard')
       if score
         span.points #{score}pts
